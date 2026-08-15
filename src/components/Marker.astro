@@ -1,0 +1,18 @@
+---
+/* Выделение маркером от руки. Линия намеренно неровная —
+   ровная читалась бы как заливка, а не как след руки. */
+---
+
+<span class="marked">
+  <svg viewBox="0 0 300 22" preserveAspectRatio="none" aria-hidden="true">
+    <path
+      d="M5 13 C 62 7, 122 17, 184 10 S 266 6, 295 12"
+      fill="none"
+      stroke="var(--mark)"
+      stroke-width="20"
+      stroke-linecap="round"
+      opacity="0.62"
+    ></path>
+  </svg>
+  <span><slot /></span>
+</span>

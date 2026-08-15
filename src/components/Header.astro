@@ -54,19 +54,18 @@ const path = Astro.url.pathname;
   }
 
   .wordmark__mark {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.75rem;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.25rem;
     line-height: 1;
-    color: var(--terracotta);
+    letter-spacing: -0.04em;
   }
 
   .wordmark__name {
+    font-family: var(--display);
+    font-weight: 600;
     font-size: 0.9375rem;
-  }
-
-  .wordmark:hover .wordmark__name {
-    color: var(--terracotta-deep);
+    letter-spacing: -0.02em;
   }
 
   nav ul {
@@ -86,7 +85,8 @@ const path = Astro.url.pathname;
   }
 
   nav a:hover {
-    border-bottom-color: var(--terracotta);
+    border-bottom-color: var(--mark);
+    border-bottom-width: 3px;
   }
 
   nav a[aria-current='page'] {

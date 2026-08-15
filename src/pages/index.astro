@@ -2,46 +2,193 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ArticleCard from '../components/ArticleCard.astro';
+import Marker from '../components/Marker.astro';
 import { site, readingTime } from '../site';
 
 const articles = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+  .slice(0, 2);
+
+/* Задачи для экрана «показ процесса».
+   TODO (Лиза): подставить тайминг «было / стало» по каждой. */
+const tasks = [
+  {
+    name: 'Карусель',
+    hand: 'тему, смысл и порядок слайдов держу я',
+    ai: 'раскладывает по слайдам и даёт три варианта первого',
+  },
+  {
+    name: 'Монтаж рилса',
+    hand: 'снимаю и решаю, что оставить',
+    ai: 'чистит расшифровку, собирает субтитры и находит склейки',
+  },
+  {
+    name: 'Разбор аудитории',
+    hand: 'задаю вопросы и проверяю выводы на своих клиентах',
+    ai: 'сводит комментарии и переписки в понятную картину',
+  },
+];
+
+const faq = [
+  {
+    q: 'Сколько времени это займёт',
+    a: 'Задания до тридцати минут, уроки короткие, смотришь с телефона. Мы не проходим программу — разбираем твои задачи, те, что ты и так делаешь.',
+  },
+  {
+    q: 'Я пробовала, оно пишет фигню',
+    a: 'Так и есть, если просить «напиши пост». Разница между таким запросом и «вот мои тексты, вот как я шучу, вот слова, которые я никогда не употребляю» — это разница между мусором и рабочим черновиком.',
+  },
+  {
+    q: 'Я не технарь, я не разберусь',
+    a: 'И не надо им становиться. Там нет ни одной инструкции про интеграции. Открыть, потыкать, посмотреть, что вышло. Я сама начинала с того, что выходило странно и мне не нравилось.',
+  },
+  {
+    q: 'У меня своя специфика — психология, нутрициология, преподавание',
+    a: 'И правильно, что там нельзя просто сгенерить. Поэтому мы и говорим лично: я разбираю, что конкретно у тебя за задачи и что из них ускоряется. Промпты собираю под тебя.',
+  },
+  {
+    q: 'А если я не дойду, как всегда',
+    a: 'Тут не получится две недели смотреть уроки и ничего не сделать: мы говорим лично, и я вижу, что у тебя происходит. Пропустишь пару дней — догонишь, записи остаются, никто твои пропуски вслух не считает.',
+  },
+];
+
+const notFor = [
+  'Хочешь, чтобы контент делался без твоего участия',
+  'Нет двадцати минут в день ближайшие две недели',
+  'Нужны интеграции, боты и техническая настройка',
+  'Ждёшь роста продаж к конкретной дате',
+];
 ---
 
 <Base>
-  <section class="hero">
-    <div class="shell hero__inner">
-      <p class="eyebrow reveal">Маркетолог · Ростов · 6 лет в онлайне</p>
+  <!-- 1. Узнавание -->
+  <section class="hero shell">
+    <div class="hero__text">
+      <p class="eyebrow">Лиза Ким · маркетолог · Ростов</p>
 
-      <h1 class="hero__title reveal">
-        Продажи через блог <span class="serif">без сторис 24/7</span>
+      <h1 class="hero__title">
+        Ты попросила «напиши пост» — и <Marker>закрыла вкладку</Marker>
       </h1>
 
-      <p class="hero__lead reveal">
-        Без сложных схем и без СММ-подрядчиков. Шесть лет в онлайне, и всё, что
-        советую, сначала проверяю на себе.
+      <p class="hero__lead">
+        Я работаю с нейронками каждый день на трёх проектах. Показываю, как это
+        выглядит на самом деле: с кривыми первыми ответами и с местами, где я
+        всё равно переписываю руками.
       </p>
 
-      <div class="hero__actions reveal">
-        <a class="btn btn--solid" href="/blog/">Читать статьи</a>
-        <a class="btn btn--ghost" href={site.links.telegram}>Телеграм-канал</a>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href={site.links.telegram}>Телеграм-канал</a>
+        <a class="btn btn--ghost" href="#process">Что я показываю</a>
+      </div>
+    </div>
+
+    <figure class="hero__photo">
+      <img src="/liza.jpg" alt="Лиза Ким" width="675" height="1200" />
+      <figcaption class="sticker">первой скажу, где Клод не тянет</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2. Переворот -->
+  <section class="shell block">
+    <h2 class="block__title">Ты не ошиблась в выводе. Ты ошиблась в эксперименте</h2>
+
+    <p class="block__lead">
+      Безликий текст получается из безликого запроса. Она не знает твоего
+      голоса, потому что его ей никто не показал. И не знает твоего проекта,
+      твоих клиентов, твоих задач — по той же причине.
+    </p>
+
+    <div class="compare">
+      <div class="paper">
+        <p class="eyebrow">так просят обычно</p>
+        <p class="prompt"><span class="dim">&gt;</span> напиши пост про выгорание</p>
+        <p class="compare__out compare__out--dead">
+          В современном мире выгорание становится всё более актуальной
+          проблемой. Многие специалисты сталкиваются с…
+        </p>
       </div>
 
-      <p class="hero__stamp reveal" aria-hidden="true">
-        <span class="sticker sticker--accent">я маркетолог и жертва маркетинга</span>
-      </p>
+      <div class="paper paper--tilt">
+        <p class="eyebrow">так прошу я</p>
+        <p class="prompt">
+          <span class="dim">&gt;</span> вот три моих поста, вот как я шучу, вот
+          слова, которые я никогда не пишу. Тема — выгорание
+        </p>
+        <p class="compare__out">
+          Я не выгорела. Я просто перестала успевать делать для себя то, что
+          делаю для клиентов…
+        </p>
+      </div>
     </div>
   </section>
 
+  <!-- 3. Показ процесса -->
+  <section class="shell block" id="process">
+    <h2 class="block__title">Смотри, как это выглядит на самом деле</h2>
+    <p class="block__lead">
+      Три задачи, которые у меня повторяются каждую неделю. По каждой видно, что
+      делаю я, а что она.
+    </p>
+
+    <ul class="tasks">
+      {
+        tasks.map((task) => (
+          <li class="paper task">
+            <h3 class="task__name">{task.name}</h3>
+            <p class="task__row">
+              <span class="task__lab">руками</span>
+              {task.hand}
+            </p>
+            <p class="task__row">
+              <span class="task__lab task__lab--ai">нейронка</span>
+              {task.ai}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- 4. Кто это говорит -->
+  <section class="shell block">
+    <div class="who">
+      <div>
+        <h2 class="block__title">
+          Я маркетолог, который этим пользуется каждый день, а не нейро-гуру
+        </h2>
+        <p class="who__text">
+          Шесть лет в онлайне. Дважды платила за обучение своими деньгами. И
+          первой скажу, где Клод не тянет: он умеет писать как искусственный
+          интеллект, души там нет. Мозг включаешь ты.
+        </p>
+        <p class="who__text">
+          Она не знает, что сказать. Знаешь ты. Она просто быстро печатает.
+        </p>
+        <a class="link-more" href="/about/">Подробнее обо мне</a>
+      </div>
+
+      <div class="paper paper--tilt note">
+        <p class="eyebrow">промпт · черновик 4</p>
+        <p class="prompt">
+          <s>напиши пост про клиентов</s><br />
+          ты пишешь за меня. вот мой голос:<br />
+          — короткие фразы, самоирония<br />
+          — никаких «в современном мире»<br />
+          — в конце вопрос к читателю
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Что можно взять сейчас -->
   <section class="shell block">
     <div class="block__head">
-      <h2 class="block__title">Последнее</h2>
-      <a class="block__more" href="/blog/">Все статьи</a>
+      <h2 class="block__title block__title--sm">Тут лежит то, чем пользуюсь сама</h2>
+      <a class="link-more" href="/blog/">Все статьи</a>
     </div>
 
     {
-      articles.length > 0 ? (
+      articles.length > 0 && (
         <div class="feed">
           {articles.map((entry) => (
             <ArticleCard
@@ -54,74 +201,120 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
             />
           ))}
         </div>
-      ) : (
-        <p class="empty">Первая статья скоро появится.</p>
       )
     }
   </section>
 
+  <!-- 6. Что можно купить -->
   <section class="shell block">
-    <h2 class="block__title">О чём я тут пишу</h2>
+    <div class="offer">
+      <p class="eyebrow">18 августа — 4 сентября</p>
+      <h2 class="offer__title">Интенсив по нейросетям</h2>
+      <p class="offer__lead">
+        Первый поток, поэтому расскажу честно, как он устроен.
+      </p>
 
-    <div class="themes">
-      <div class="theme">
-        <h3>Блог, который продаёт</h3>
-        <p>
-          Как собрать систему из того, что уже есть: темы, форматы, воронка.
-          Чтобы контент не зависел от вдохновения.
+      <ul class="parts">
+        <li>
+          <b>Уроки в записи.</b> Доступ, оплата, установка, в том числе на Mac,
+          VPN и база работы с нейронкой. Смотришь в своём темпе, остаются у тебя.
+        </li>
+        <li>
+          <b>Личный разговор с каждой.</b> Я сажусь с тобой и разбираю, что у
+          тебя за задачи и что из них реально можно ускорить.
+        </li>
+        <li>
+          <b>Промпты под твои задачи.</b> Те, что нужны тебе, собранные после
+          разговора.
+        </li>
+        <li>
+          <b>Я в личке всё время интенсива.</b> Написала — я ответила.
+        </li>
+      </ul>
+
+      <div class="price">
+        <p class="price__main">4 900 ₽</p>
+        <p class="price__note">
+          Такая цена, потому что поток первый. Нас будет не больше десяти —
+          с каждой я говорю лично.
         </p>
       </div>
-      <div class="theme">
-        <h3>Нейросети в работе эксперта</h3>
-        <p>
-          Не сто промптов в никуда. Разбираю, как прикрутить ИИ к своему проекту
-          так, чтобы он экономил часы.
-        </p>
-      </div>
-      <div class="theme">
-        <h3>Эксперименты над собой</h3>
-        <p>
-          Пробую на своём блоге и показываю цифры целиком — включая недели, где
-          ничего не выросло.
-        </p>
-      </div>
+
+      <p class="honest">
+        И сразу про то, о чём обычно молчат: сама нейросеть — отдельные деньги.
+        Клод — 2 000–3 000 ₽ в месяц, чат GPT — около 900 ₽, VPN — рублей 300.
+        Если ты не в маркетинге, тебе хватит варианта за 900. Разберём в первый
+        же день.
+      </p>
+
+      <a class="btn btn--solid" href={site.links.telegram}>Спросить про интенсив</a>
     </div>
   </section>
 
+  <!-- 7. Вопросы и кому не надо -->
+  <section class="shell block">
+    <h2 class="block__title block__title--sm">Что спрашивают до оплаты</h2>
+
+    <div class="faq">
+      {
+        faq.map((item) => (
+          <details class="q">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+
+    <div class="notfor">
+      <p class="eyebrow">кому точно не надо</p>
+      <ul>
+        {notFor.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. Действие -->
   <section class="shell">
-    <aside class="pitch">
-      <p class="pitch__tag"><span class="sticker sticker--accent">ближайший поток</span></p>
-      <h2 class="pitch__title">
-        Интенсив <span class="serif">«Нейросети для экспертов»</span>
+    <aside class="final">
+      <h2 class="final__title">
+        Дальше всё <Marker>в Телеграме</Marker>
       </h2>
-      <p class="pitch__lead">
-        Уроки в записи, личный разговор с каждой и промпты под её задачи. Малая
-        группа, чтобы разобрать проект каждой участницы.
+      <p class="final__lead">
+        Там разборы подробнее, промпты, которые можно скопировать одним тапом, и
+        мои цифры — включая недели, где ничего не выросло.
       </p>
-      <a class="btn btn--solid" href="/intensive/">Что внутри</a>
+      <div class="final__actions">
+        <a class="btn btn--solid" href={site.links.telegram}>Подписаться на канал</a>
+        <a class="btn btn--ghost" href="/blog/">Сначала почитать</a>
+      </div>
     </aside>
   </section>
 </Base>
 
 <style>
+  /* ——— 1. Узнавание ——— */
   .hero {
-    padding-block: clamp(3.5rem, 11vw, 7.5rem) clamp(3rem, 8vw, 5rem);
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    padding-block: clamp(2.5rem, 7vw, 5rem) clamp(2rem, 5vw, 3rem);
+    align-items: center;
   }
 
-  .hero__inner {
-    position: relative;
+  @media (min-width: 54rem) {
+    .hero { grid-template-columns: minmax(0, 1fr) 17rem; }
   }
 
   .hero__title {
     margin-top: 1.1rem;
-    font-size: clamp(2.4rem, 1.2rem + 5.6vw, 5.25rem);
+    font-size: clamp(2.35rem, 1.3rem + 4.6vw, 4.4rem);
     max-width: 15ch;
   }
 
   .hero__lead {
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
     max-width: var(--measure);
-    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.1875rem);
     color: var(--ink-mute);
   }
 
@@ -132,48 +325,51 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     margin-top: 2rem;
   }
 
-  .hero__stamp {
-    margin-top: 2.5rem;
+  .hero__photo {
+    position: relative;
+    margin: 0;
   }
 
-  /* Появление при загрузке: сверху вниз, один раз, без суеты */
-  .reveal {
-    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  .hero__photo img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: 50% 18%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 16px 32px -18px rgba(0, 0, 0, 0.5);
   }
 
-  .reveal:nth-child(1) { animation-delay: 0.02s; }
-  .reveal:nth-child(2) { animation-delay: 0.1s; }
-  .reveal:nth-child(3) { animation-delay: 0.18s; }
-  .reveal:nth-child(4) { animation-delay: 0.26s; }
-  .reveal:nth-child(5) { animation-delay: 0.36s; }
-
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(0.85rem);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+  .hero__photo figcaption {
+    position: absolute;
+    right: -0.6rem;
+    bottom: -1.1rem;
+    max-width: 12rem;
   }
 
-  .block {
-    margin-top: clamp(3rem, 8vw, 5.5rem);
-  }
+  /* ——— общие блоки ——— */
+  .block { margin-top: clamp(3.25rem, 8vw, 5.5rem); }
 
   .block__head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
+    flex-wrap: wrap;
   }
 
   .block__title {
-    font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem);
+    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.75rem);
+    max-width: 20ch;
   }
 
-  .block__more {
+  .block__title--sm { font-size: clamp(1.4rem, 1.15rem + 1.1vw, 2rem); }
+
+  .block__lead {
+    margin-top: 1.2rem;
+    max-width: var(--measure);
+    color: var(--ink-mute);
+  }
+
+  .link-more {
     font-size: 0.9375rem;
     text-decoration: none;
     border-bottom: 1px solid var(--rule-strong);
@@ -181,65 +377,260 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
     white-space: nowrap;
   }
 
-  .block__more:hover {
-    border-bottom-color: var(--terracotta);
+  .link-more:hover { border-bottom-color: var(--ink); }
+
+  /* ——— 2. Сравнение ——— */
+  .compare {
+    display: grid;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    align-items: start;
   }
 
+  .compare .prompt { margin-top: 0.9rem; }
+
+  .compare__out {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px dashed var(--rule);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  .compare__out--dead { color: #a3a5a9; }
+
+  /* ——— 3. Задачи ——— */
+  .tasks {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+
+  .task__name {
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
+  }
+
+  .task__row {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 1rem;
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  .task__lab {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .task__lab--ai { color: #8a6f10; }
+
+  /* ——— 4. Кто говорит ——— */
+  .who {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  @media (min-width: 54rem) {
+    .who { grid-template-columns: minmax(0, 1fr) 18rem; }
+  }
+
+  .who__text {
+    margin-top: 1.3rem;
+    max-width: var(--measure);
+    color: var(--ink-mute);
+  }
+
+  .who .link-more { display: inline-block; margin-top: 1.5rem; }
+
+  .note { margin-top: 0.5rem; }
+
+  /* ——— 5. Лента ——— */
   .feed {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
     border-bottom: 1px solid var(--rule);
   }
 
-  .empty {
-    margin-top: 1.5rem;
-    color: var(--ink-mute);
-  }
-
-  .themes {
-    display: grid;
-    gap: clamp(1.75rem, 4vw, 2.5rem);
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    margin-top: 2rem;
-  }
-
-  .theme h3 {
-    font-size: 1.125rem;
-    padding-top: 1rem;
-    border-top: 2px solid var(--ink);
-  }
-
-  .theme p {
-    margin-top: 0.7rem;
-    color: var(--ink-mute);
-    font-size: 0.9375rem;
-  }
-
-  .pitch {
-    position: relative;
-    margin-top: clamp(4rem, 9vw, 6rem);
-    padding: clamp(2.25rem, 5vw, 3.25rem);
+  /* ——— 6. Оффер ——— */
+  .offer {
     background: var(--paper-raised);
+    padding: clamp(1.75rem, 5vw, 3.25rem);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 14px 30px -20px rgba(0, 0, 0, 0.35);
   }
 
-  /* Наклейка «приклеена» к верхнему краю блока и выходит за него */
-  .pitch__tag {
-    position: absolute;
-    top: 0;
-    left: clamp(2.25rem, 5vw, 3.25rem);
-    transform: translateY(-50%);
-    margin: 0;
+  .offer__title {
+    margin-top: 0.7rem;
+    font-size: clamp(1.8rem, 1.3rem + 2.2vw, 2.75rem);
   }
 
-  .pitch__title {
-    margin-top: 0.4rem;
-    font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
-    max-width: 18ch;
-  }
-
-  .pitch__lead {
-    margin-top: 1.1rem;
-    margin-bottom: 1.75rem;
-    max-width: var(--measure);
+  .offer__lead {
+    margin-top: 0.9rem;
     color: var(--ink-mute);
+  }
+
+  .parts {
+    display: grid;
+    gap: 1.1rem;
+    margin-top: 2rem;
+    max-width: 44rem;
+  }
+
+  .parts li {
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--mark);
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  .parts b { color: var(--ink); font-weight: 600; }
+
+  .price {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin-top: 2.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .price__main {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+    letter-spacing: -0.03em;
+  }
+
+  .price__note {
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+    max-width: 34ch;
+  }
+
+  .honest {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 46rem;
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  /* ——— 7. Вопросы ——— */
+  .faq {
+    margin-top: 1.75rem;
+    border-top: 1px solid var(--rule);
+    max-width: 46rem;
+  }
+
+  .q {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .q summary {
+    padding-block: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .q summary::-webkit-details-marker { display: none; }
+
+  .q summary::after {
+    content: '+';
+    font-family: var(--mono);
+    color: var(--ink-mute);
+    flex: none;
+  }
+
+  .q[open] summary::after { content: '–'; }
+
+  .q p {
+    padding-bottom: 1.2rem;
+    max-width: var(--measure);
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  .notfor {
+    margin-top: 2.5rem;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    background: var(--paper-raised);
+    max-width: 40rem;
+  }
+
+  .notfor ul {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 1rem;
+  }
+
+  .notfor li {
+    padding-left: 1.4rem;
+    position: relative;
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  .notfor li::before {
+    content: '×';
+    position: absolute;
+    left: 0;
+    color: var(--pen);
+    font-weight: 600;
+  }
+
+  /* ——— 8. Финал ——— */
+  .final {
+    margin-top: clamp(3.5rem, 9vw, 6rem);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .final__title {
+    font-size: clamp(1.8rem, 1.3rem + 2.4vw, 3rem);
+    max-width: 16ch;
+  }
+
+  .final__lead {
+    margin-top: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: var(--measure);
+    color: #b9bbc0;
+  }
+
+  .final__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .final .btn--solid {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+  }
+
+  .final .btn--solid:hover { background: #fff; color: #000; }
+
+  .final .btn--ghost {
+    color: var(--paper);
+    border-color: rgba(236, 234, 228, 0.45);
+  }
+
+  .final .btn--ghost:hover {
+    background: var(--paper);
+    color: var(--ink);
   }
 </style>

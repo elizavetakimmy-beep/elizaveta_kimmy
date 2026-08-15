@@ -37,7 +37,7 @@ const { title, lead, date, topic } = entry.data;
 
       <footer class="tail">
         <p class="tail__line">
-          Пишу ещё в Телеграме — там разборы <span class="serif">подробнее</span> и
+          Пишу ещё в Телеграме — там разборы подробнее и
           промпты, которые можно скопировать.
         </p>
         <div class="tail__actions">
@@ -102,10 +102,9 @@ const { title, lead, date, topic } = entry.data;
     margin-inline: 0;
     padding-left: 1.2em;
     border-left: 1px solid var(--rule-strong);
-    font-family: var(--font-display);
-    font-size: 1.35em;
-    line-height: 1.35;
-    font-style: italic;
+    font-size: 1.2em;
+    line-height: 1.4;
+    font-weight: 500;
     color: var(--ink);
   }
 
@@ -119,7 +118,7 @@ const { title, lead, date, topic } = entry.data;
   }
 
   .prose :global(li::marker) {
-    color: var(--terracotta);
+    color: var(--mark);
   }
 
   .prose :global(strong) {
@@ -127,7 +126,7 @@ const { title, lead, date, topic } = entry.data;
   }
 
   .prose :global(a) {
-    text-decoration-color: var(--terracotta);
+    text-decoration-color: var(--mark);
   }
 
   .prose :global(hr) {
