@@ -1,43 +1,63 @@
-# Astro Starter Kit: Minimal
+# Сайт Лизы
 
-```sh
-npm create astro@latest -- --template minimal
+Витрина эксперта и блог. Статика на Astro: страницы собираются заранее, поэтому
+сайт открывается мгновенно и его почти невозможно уронить.
+
+## Как добавить статью
+
+Статьи — обычные файлы в `src/content/articles/`. Один файл = одна статья.
+Имя файла становится адресом: `sto-promptov.md` → `/blog/sto-promptov/`.
+
+Шапка файла:
+
+```markdown
+---
+title: Заголовок статьи
+lead: "Короткая подводка: показывается в ленте и в поиске."
+date: 2026-08-15
+topic: нейросети
+draft: false
+---
+
+Дальше обычный текст.
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- `lead` бери в кавычки, если внутри есть двоеточие
+- `topic` — метка-наклейка в ленте: нейросети, блог, эксперименты
+- `draft: true` — черновик, на сайт не попадёт
 
-## 🚀 Project Structure
+## Локальный просмотр
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Откроется на http://localhost:4321, правки видны сразу.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Проверить сборку перед публикацией
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+npm run build
+```
 
-## 🧞 Commands
+## Что поправить после первого деплоя
 
-All commands are run from the root of the project, from a terminal:
+- `astro.config.mjs` → `site` — реальный адрес сайта
+- `src/site.ts` → `url` и ссылка на Телеграм-канал
+- `src/pages/intensive.astro` — даты потока, цена, статус набора
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Как устроено
 
-## 👀 Want to learn more?
+```
+src/
+  content/articles/   статьи (.md)
+  pages/              страницы сайта
+  components/         шапка, подвал, карточка статьи
+  layouts/Base.astro  общий каркас: заголовки, мета-теги
+  styles/global.css   палитра, шрифты, кнопки
+  site.ts             имя, ссылки, формат даты
+public/fonts/         Golos Text и Cormorant локально
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Шрифты лежат внутри проекта, а не грузятся с Google — сайт одинаково быстро
+открывается и без VPN.
