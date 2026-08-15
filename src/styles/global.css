@@ -1,0 +1,221 @@
+@import '/fonts/fonts.css';
+
+/* ---------------------------------------------------------------
+   Палитра фирменного стиля. Светлая тема — часть бренда,
+   поэтому color-scheme зафиксирован и браузер её не инвертирует.
+   --------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --paper: #e8e8e8;
+  --paper-raised: #f1f1f1;
+  --ink: #2b2b2b;
+  --ink-mute: #6d6d6d;
+  --terracotta: #cf6a4c;
+  --terracotta-deep: #b4553a;
+  --rule: rgba(43, 43, 43, 0.14);
+  --rule-strong: rgba(43, 43, 43, 0.28);
+
+  --font-body: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Cormorant', Georgia, 'Times New Roman', serif;
+
+  --measure: 34rem;      /* комфортная длина строки для чтения */
+  --gutter: clamp(1.25rem, 5vw, 3.5rem);
+  --shell: 68rem;        /* предельная ширина контентной колонки */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.62;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+a:hover {
+  color: var(--terracotta-deep);
+  text-decoration-color: currentColor;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--terracotta);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------
+   Сигнатура: серифный курсивный акцент внутри строки
+   и терракотовый маркер — те же приёмы, что в титрах рилсов.
+   --------------------------------------------------------------- */
+.serif {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  /* серифная вставка оптически мельче гротеска — компенсируем */
+  font-size: 1.12em;
+  line-height: 0.9;
+  color: var(--terracotta);
+}
+
+.marker {
+  position: relative;
+  display: inline;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 62%,
+    rgba(207, 106, 76, 0.28) 62%,
+    rgba(207, 106, 76, 0.28) 94%,
+    transparent 94%
+  );
+  background-repeat: no-repeat;
+}
+
+/* Метка-наклейка: слегка повёрнута, как стикер на бумаге */
+.sticker {
+  display: inline-block;
+  padding: 0.22em 0.62em 0.3em;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: lowercase;
+  transform: rotate(-1.6deg);
+  border-radius: 1px;
+}
+
+.sticker--accent {
+  background: var(--terracotta);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------
+   Раскладка
+   --------------------------------------------------------------- */
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin: 0;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* Кнопки */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.78em 1.4em;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  color: inherit;
+}
+
+.btn--solid {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn--solid:hover {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: #fff;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn--ghost:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn:hover {
+    transform: none;
+  }
+}

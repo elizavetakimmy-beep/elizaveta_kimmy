@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Страница не найдена">
+  <section class="shell wrap">
+    <p class="eyebrow">Ошибка 404</p>
+    <h1 class="title">Такой страницы <span class="serif">нет</span></h1>
+    <p class="text">
+      Возможно, адрес изменился. Загляните в статьи — скорее всего, вы искали
+      что-то оттуда.
+    </p>
+    <div class="actions">
+      <a class="btn btn--solid" href="/blog/">Все статьи</a>
+      <a class="btn btn--ghost" href="/">На главную</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .wrap {
+    padding-block: clamp(4rem, 12vw, 8rem);
+    max-width: 40rem;
+  }
+
+  .title {
+    margin-top: 1rem;
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem);
+  }
+
+  .text {
+    margin-top: 1.2rem;
+    color: var(--ink-mute);
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+</style>

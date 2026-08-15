@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site';
+
+/*
+  TODO (Лиза): даты потока, цену и статус набора проставить здесь.
+  Пока страница описывает продукт и ведёт в Телеграм — там актуальная
+  информация о ближайшем потоке.
+*/
+const parts = [
+  {
+    title: 'Уроки в записи',
+    text: 'Короткие, по делу. Смотришь, когда удобно, и сразу делаешь — без домашки в стол.',
+  },
+  {
+    title: 'Личный разговор',
+    text: 'С каждой участницей разбираем её проект: что мешает и куда прикрутить нейросеть в первую очередь.',
+  },
+  {
+    title: 'Промпты под твои задачи',
+    text: 'Не сборник на сто штук, а несколько рабочих — собранных под то, что ты делаешь каждую неделю.',
+  },
+  {
+    title: 'Ответы в личке',
+    text: 'Застряла — пишешь. Группа маленькая, поэтому вопросы не теряются.',
+  },
+];
+---
+
+<Base
+  title="Интенсив «Нейросети для экспертов»"
+  description="Интенсив для экспертов: как прикрутить нейросети к своему проекту. Уроки в записи, личный разбор проекта и промпты под ваши задачи."
+>
+  <section class="shell head">
+    <p class="head__tag"><span class="sticker sticker--accent">интенсив</span></p>
+    <h1 class="head__title">Нейросети <span class="serif">для экспертов</span></h1>
+    <p class="head__lead">
+      Для тех, кто уже покупал «сто промптов» и они легли мёртвым грузом.
+      Разбираемся не с нейросетью вообще, а с твоим проектом: где именно она
+      сэкономит тебе часы.
+    </p>
+    <div class="head__actions">
+      <a class="btn btn--solid" href={site.links.telegram}>Узнать о ближайшем потоке</a>
+    </div>
+  </section>
+
+  <section class="shell block">
+    <h2 class="block__title">Как устроено</h2>
+    <div class="parts">
+      {
+        parts.map((part) => (
+          <div class="part">
+            <h3>{part.title}</h3>
+            <p>{part.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="shell block">
+    <div class="split">
+      <div>
+        <h2 class="block__title">Кому подойдёт</h2>
+        <ul class="list">
+          <li>Экспертам и специалистам, которые сами ведут свой блог</li>
+          <li>Тем, кто пользуется нейросетями урывками: начала и бросила</li>
+          <li>Тем, у кого клиенты съедают всё время, а на своё не остаётся</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="block__title">Чего тут не будет</h2>
+        <ul class="list list--muted">
+          <li>Обещаний, что блог начнёт вести себя сам</li>
+          <li>Универсальных промптов «для всех ниш сразу»</li>
+          <li>Технических лекций про устройство моделей</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell">
+    <aside class="cta">
+      <p class="cta__line">
+        Даты следующего потока и условия объявляю <span class="serif">в канале</span>.
+        Там же можно задать вопрос до покупки.
+      </p>
+      <a class="btn btn--solid" href={site.links.telegram}>Перейти в Телеграм</a>
+    </aside>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(2rem, 5vw, 3rem);
+  }
+
+  .head__tag {
+    margin: 0 0 1.25rem;
+  }
+
+  .head__title {
+    font-size: clamp(2.25rem, 1.3rem + 4.2vw, 4.5rem);
+    max-width: 14ch;
+  }
+
+  .head__lead {
+    margin-top: 1.35rem;
+    max-width: var(--measure);
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.1875rem);
+    color: var(--ink-mute);
+  }
+
+  .head__actions {
+    margin-top: 2rem;
+  }
+
+  .block {
+    margin-top: clamp(3rem, 8vw, 5rem);
+  }
+
+  .block__title {
+    font-size: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+  }
+
+  .parts {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 2.25rem);
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    margin-top: 2rem;
+  }
+
+  .part h3 {
+    padding-top: 1rem;
+    border-top: 2px solid var(--ink);
+    font-size: 1.0625rem;
+  }
+
+  .part p {
+    margin-top: 0.7rem;
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  .split {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+
+  .list {
+    margin: 1.25rem 0 0;
+    padding-left: 1.1em;
+    max-width: 32ch;
+  }
+
+  .list li + li {
+    margin-top: 0.6em;
+  }
+
+  .list li::marker {
+    color: var(--terracotta);
+  }
+
+  .list--muted {
+    color: var(--ink-mute);
+  }
+
+  .list--muted li::marker {
+    color: var(--rule-strong);
+  }
+
+  .cta {
+    margin-top: clamp(3.5rem, 9vw, 5.5rem);
+    padding: clamp(2rem, 5vw, 3rem);
+    background: var(--paper-raised);
+  }
+
+  .cta__line {
+    max-width: 34ch;
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+    line-height: 1.4;
+  }
+</style>

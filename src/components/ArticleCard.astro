@@ -1,0 +1,85 @@
+---
+import { formatDate } from '../site';
+
+interface Props {
+  href: string;
+  title: string;
+  lead: string;
+  date: Date;
+  topic: string;
+  minutes: string;
+}
+
+const { href, title, lead, date, topic, minutes } = Astro.props;
+---
+
+<article class="card">
+  <div class="card__meta">
+    <span class="sticker">{topic}</span>
+    <time datetime={date.toISOString()}>{formatDate(date)}</time>
+    <span class="dot" aria-hidden="true">·</span>
+    <span>{minutes}</span>
+  </div>
+
+  <h3 class="card__title">
+    <a href={href}>{title}</a>
+  </h3>
+
+  <p class="card__lead">{lead}</p>
+</article>
+
+<style>
+  .card {
+    padding-block: clamp(1.75rem, 4vw, 2.5rem);
+    border-top: 1px solid var(--rule);
+  }
+
+  .card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+    margin-bottom: 0.9rem;
+  }
+
+  .card__meta .sticker {
+    margin-right: 0.3rem;
+  }
+
+  .dot {
+    color: var(--rule-strong);
+  }
+
+  .card__title {
+    font-size: clamp(1.375rem, 1.1rem + 1.3vw, 2rem);
+    max-width: 24ch;
+  }
+
+  .card__title a {
+    text-decoration: none;
+    background-image: linear-gradient(var(--terracotta), var(--terracotta));
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.28s ease;
+  }
+
+  .card:hover .card__title a,
+  .card__title a:focus-visible {
+    background-size: 100% 1.5px;
+  }
+
+  .card__lead {
+    margin-top: 0.75rem;
+    max-width: var(--measure);
+    color: var(--ink-mute);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card__title a {
+      transition: none;
+    }
+  }
+</style>

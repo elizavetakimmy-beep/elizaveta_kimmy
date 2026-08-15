@@ -1,0 +1,245 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { site, readingTime } from '../site';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<Base>
+  <section class="hero">
+    <div class="shell hero__inner">
+      <p class="eyebrow reveal">Маркетолог · Ростов · 6 лет в онлайне</p>
+
+      <h1 class="hero__title reveal">
+        Продажи через блог <span class="serif">без сторис 24/7</span>
+      </h1>
+
+      <p class="hero__lead reveal">
+        Без сложных схем и без СММ-подрядчиков. Шесть лет в онлайне, и всё, что
+        советую, сначала проверяю на себе.
+      </p>
+
+      <div class="hero__actions reveal">
+        <a class="btn btn--solid" href="/blog/">Читать статьи</a>
+        <a class="btn btn--ghost" href={site.links.telegram}>Телеграм-канал</a>
+      </div>
+
+      <p class="hero__stamp reveal" aria-hidden="true">
+        <span class="sticker sticker--accent">я маркетолог и жертва маркетинга</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="shell block">
+    <div class="block__head">
+      <h2 class="block__title">Последнее</h2>
+      <a class="block__more" href="/blog/">Все статьи</a>
+    </div>
+
+    {
+      articles.length > 0 ? (
+        <div class="feed">
+          {articles.map((entry) => (
+            <ArticleCard
+              href={`/blog/${entry.id}/`}
+              title={entry.data.title}
+              lead={entry.data.lead}
+              date={entry.data.date}
+              topic={entry.data.topic}
+              minutes={readingTime(entry.body ?? '')}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty">Первая статья скоро появится.</p>
+      )
+    }
+  </section>
+
+  <section class="shell block">
+    <h2 class="block__title">О чём я тут пишу</h2>
+
+    <div class="themes">
+      <div class="theme">
+        <h3>Блог, который продаёт</h3>
+        <p>
+          Как собрать систему из того, что уже есть: темы, форматы, воронка.
+          Чтобы контент не зависел от вдохновения.
+        </p>
+      </div>
+      <div class="theme">
+        <h3>Нейросети в работе эксперта</h3>
+        <p>
+          Не сто промптов в никуда. Разбираю, как прикрутить ИИ к своему проекту
+          так, чтобы он экономил часы.
+        </p>
+      </div>
+      <div class="theme">
+        <h3>Эксперименты над собой</h3>
+        <p>
+          Пробую на своём блоге и показываю цифры целиком — включая недели, где
+          ничего не выросло.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell">
+    <aside class="pitch">
+      <p class="pitch__tag"><span class="sticker sticker--accent">ближайший поток</span></p>
+      <h2 class="pitch__title">
+        Интенсив <span class="serif">«Нейросети для экспертов»</span>
+      </h2>
+      <p class="pitch__lead">
+        Уроки в записи, личный разговор с каждой и промпты под её задачи. Малая
+        группа, чтобы разобрать проект каждой участницы.
+      </p>
+      <a class="btn btn--solid" href="/intensive/">Что внутри</a>
+    </aside>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(3.5rem, 11vw, 7.5rem) clamp(3rem, 8vw, 5rem);
+  }
+
+  .hero__inner {
+    position: relative;
+  }
+
+  .hero__title {
+    margin-top: 1.1rem;
+    font-size: clamp(2.4rem, 1.2rem + 5.6vw, 5.25rem);
+    max-width: 15ch;
+  }
+
+  .hero__lead {
+    margin-top: 1.5rem;
+    max-width: var(--measure);
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+    color: var(--ink-mute);
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .hero__stamp {
+    margin-top: 2.5rem;
+  }
+
+  /* Появление при загрузке: сверху вниз, один раз, без суеты */
+  .reveal {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .reveal:nth-child(1) { animation-delay: 0.02s; }
+  .reveal:nth-child(2) { animation-delay: 0.1s; }
+  .reveal:nth-child(3) { animation-delay: 0.18s; }
+  .reveal:nth-child(4) { animation-delay: 0.26s; }
+  .reveal:nth-child(5) { animation-delay: 0.36s; }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.85rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .block {
+    margin-top: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .block__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .block__title {
+    font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem);
+  }
+
+  .block__more {
+    font-size: 0.9375rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 0.15em;
+    white-space: nowrap;
+  }
+
+  .block__more:hover {
+    border-bottom-color: var(--terracotta);
+  }
+
+  .feed {
+    margin-top: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .empty {
+    margin-top: 1.5rem;
+    color: var(--ink-mute);
+  }
+
+  .themes {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 2.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    margin-top: 2rem;
+  }
+
+  .theme h3 {
+    font-size: 1.125rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--ink);
+  }
+
+  .theme p {
+    margin-top: 0.7rem;
+    color: var(--ink-mute);
+    font-size: 0.9375rem;
+  }
+
+  .pitch {
+    position: relative;
+    margin-top: clamp(4rem, 9vw, 6rem);
+    padding: clamp(2.25rem, 5vw, 3.25rem);
+    background: var(--paper-raised);
+  }
+
+  /* Наклейка «приклеена» к верхнему краю блока и выходит за него */
+  .pitch__tag {
+    position: absolute;
+    top: 0;
+    left: clamp(2.25rem, 5vw, 3.25rem);
+    transform: translateY(-50%);
+    margin: 0;
+  }
+
+  .pitch__title {
+    margin-top: 0.4rem;
+    font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+    max-width: 18ch;
+  }
+
+  .pitch__lead {
+    margin-top: 1.1rem;
+    margin-bottom: 1.75rem;
+    max-width: var(--measure);
+    color: var(--ink-mute);
+  }
+</style>

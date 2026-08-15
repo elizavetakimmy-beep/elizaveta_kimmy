@@ -1,0 +1,70 @@
+---
+import { site } from '../site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="shell inner">
+    <div class="say">
+      <p class="line">
+        Пишу здесь то, что <span class="serif">проверила на себе</span>.
+      </p>
+      <p class="meta">© {year} · {site.name}</p>
+    </div>
+
+    <ul class="links">
+      <li><a href={site.links.instagram} rel="me noopener" target="_blank">Инстаграм</a></li>
+      <li><a href={site.links.telegram} rel="me noopener" target="_blank">Телеграм</a></li>
+      <li><a href={`mailto:${site.links.email}`}>Почта</a></li>
+      <li><a href="/rss.xml">RSS</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    margin-top: clamp(4rem, 10vw, 7rem);
+    border-top: 1px solid var(--rule);
+    padding-block: clamp(2rem, 5vw, 3rem);
+  }
+
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .line {
+    font-size: 1.125rem;
+    max-width: 22ch;
+  }
+
+  .meta {
+    margin-top: 0.6rem;
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+  }
+
+  .links {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9375rem;
+  }
+
+  .links a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 0.15em;
+  }
+
+  .links a:hover {
+    border-bottom-color: var(--terracotta);
+  }
+</style>

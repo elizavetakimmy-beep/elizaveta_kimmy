@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site';
+---
+
+<Base
+  title="О себе"
+  description="Лиза — маркетолог с шестилетним опытом в онлайне. Помогает экспертам продавать через блог без сторис 24/7."
+>
+  <section class="shell head">
+    <h1 class="head__title">
+      Я маркетолог <span class="serif">и жертва маркетинга</span>
+    </h1>
+  </section>
+
+  <section class="shell body">
+    <div class="text">
+      <p class="lead">
+        Шесть лет в онлайне: аудиты, стратегии, контент, продвижение. За это
+        время насмотрелась на блоги, где человек выкладывается каждый день, а
+        продаж нет.
+      </p>
+
+      <p>
+        Обычно дело не в дисциплине. Дело в способе. Эксперт умеет своё дело
+        лучше всех, но у него нет системы: что говорить, кому и в каком порядке.
+        Он пробует вести сторис 24/7, выгорает и решает, что блог просто не его.
+      </p>
+
+      <p>
+        Я собираю эту систему из того, что у человека уже есть — из опыта,
+        кейсов и обычной рабочей рутины. Дальше остаётся регулярность, и она
+        держится не на силе воли, а на понятном плане.
+      </p>
+
+      <h2>Что я делаю сейчас</h2>
+
+      <p>
+        Веду блог в Инстаграме, канал в Телеграме и провожу интенсив по
+        нейросетям для экспертов. Отдельно ставлю над собой публичные
+        эксперименты: беру задачу, делаю, показываю цифры — включая те недели,
+        где ничего не выросло.
+      </p>
+
+      <p>
+        Мне кажется честным продавать только то, что проверила на себе. Поэтому
+        «100 универсальных промптов» вы тут не найдёте: они лежат мёртвым грузом
+        и у меня тоже лежали.
+      </p>
+
+      <h2>Если не про работу</h2>
+
+      <p>
+        31 год, Ростов, дочь, большая семья. Четверть корейской крови, любовь к
+        аниме и манге с детства и онлайн-игры с двенадцати лет. На тридцатилетие
+        доехала до Японии и до музея Гибли. Иногда пеку торты — выходит лучше,
+        чем можно ожидать от человека, который живёт в таблицах.
+      </p>
+    </div>
+
+    <aside class="side">
+      <p class="side__label"><span class="sticker">коротко</span></p>
+      <dl class="facts">
+        <div>
+          <dt>Опыт</dt>
+          <dd>6 лет в онлайн-маркетинге</dd>
+        </div>
+        <div>
+          <dt>Работаю с</dt>
+          <dd>экспертами и специалистами, которые продают свои знания</dd>
+        </div>
+        <div>
+          <dt>Город</dt>
+          <dd>Ростов-на-Дону</dd>
+        </div>
+      </dl>
+
+      <p class="side__cta">
+        <a class="btn btn--ghost" href={`mailto:${site.links.email}`}>Написать мне</a>
+      </p>
+    </aside>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .head__title {
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+    max-width: 16ch;
+  }
+
+  .body {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4rem);
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  @media (min-width: 60rem) {
+    .body {
+      grid-template-columns: minmax(0, 1fr) 16rem;
+    }
+  }
+
+  .text {
+    max-width: var(--measure);
+  }
+
+  .text > * + * {
+    margin-top: 1.35em;
+  }
+
+  .lead {
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.3125rem);
+    line-height: 1.5;
+  }
+
+  .text h2 {
+    margin-top: 2.6em;
+    font-size: 1.375rem;
+  }
+
+  .side {
+    padding-top: 0.5rem;
+  }
+
+  .side__label {
+    margin: 0 0 1.25rem;
+  }
+
+  .facts {
+    margin: 0;
+  }
+
+  .facts > div + div {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .facts dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .facts dd {
+    margin: 0.4rem 0 0;
+    font-size: 0.9375rem;
+  }
+
+  .side__cta {
+    margin-top: 2rem;
+  }
+</style>
