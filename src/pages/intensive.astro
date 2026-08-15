@@ -1,46 +1,58 @@
 ---
 import Base from '../layouts/Base.astro';
+import Marker from '../components/Marker.astro';
 import { site } from '../site';
 
-/*
-  TODO (Лиза): даты потока, цену и статус набора проставить здесь.
-  Пока страница описывает продукт и ведёт в Телеграм — там актуальная
-  информация о ближайшем потоке.
-*/
+/* TODO (Лиза): статус набора и число занятых мест сверять перед каждой правкой.
+   Устаревшую цифру эта аудитория проверит и запомнит. */
 const parts = [
   {
     title: 'Уроки в записи',
-    text: 'Короткие, по делу. Смотришь, когда удобно, и сразу делаешь — без домашки в стол.',
+    text: 'Доступ, оплата, установка — в том числе на Mac, — VPN и база работы с нейронкой. До пятнадцати минут, смотришь с телефона в своём темпе. Остаются у тебя насовсем.',
   },
   {
-    title: 'Личный разговор',
-    text: 'С каждой участницей разбираем её проект: что мешает и куда прикрутить нейросеть в первую очередь.',
+    title: 'Личный разговор с каждой',
+    text: 'Я сажусь с тобой и разбираю, что у тебя за задачи и что из них реально можно ускорить. С тобой, а не с абстрактным специалистом.',
   },
   {
     title: 'Промпты под твои задачи',
-    text: 'Не сборник на сто штук, а несколько рабочих — собранных под то, что ты делаешь каждую неделю.',
+    text: 'Проверенная база — вся твоя. Плюс после разговора короткий список под твой проект, твои задачи и твой голос.',
   },
   {
-    title: 'Ответы в личке',
-    text: 'Застряла — пишешь. Группа маленькая, поэтому вопросы не теряются.',
+    title: 'Я в личке всё время интенсива',
+    text: 'Написала — я ответила. Нас не больше десяти, иначе личная работа перестаёт быть личной.',
   },
+];
+
+const forWhom = [
+  'Ведёшь блог сама и пишешь тексты руками',
+  'Пробовала нейронки урывками: начала и бросила',
+  'Клиенты съедают всё время, на своё не остаётся',
+  'Уже покупала подборку промптов, и она лежит',
+];
+
+const notFor = [
+  'Хочешь, чтобы контент делался без твоего участия',
+  'Нет двадцати минут в день ближайшие две недели',
+  'Нужны интеграции, боты и техническая настройка',
+  'Ждёшь роста продаж к конкретной дате',
 ];
 ---
 
 <Base
-  title="Интенсив «Нейросети для экспертов»"
-  description="Интенсив для экспертов: как прикрутить нейросети к своему проекту. Уроки в записи, личный разбор проекта и промпты под ваши задачи."
+  title="Интенсив по нейросетям"
+  description="Интенсив по нейросетям для тех, кто продаёт свои знания и услуги. Уроки в записи, личный разбор твоих задач и промпты под них."
 >
   <section class="shell head">
-    <p class="head__tag"><span class="sticker">интенсив</span></p>
-    <h1 class="head__title">Нейросети для экспертов</h1>
+    <p class="eyebrow">18 августа — 4 сентября · первый поток</p>
+    <h1 class="head__title">Интенсив <Marker>по нейросетям</Marker></h1>
     <p class="head__lead">
-      Для тех, кто уже покупал «сто промптов» и они легли мёртвым грузом.
-      Разбираемся не с нейросетью вообще, а с твоим проектом: где именно она
-      сэкономит тебе часы.
+      Для тех, кто открыл нейронку, попросил «напиши пост», получил гладкий
+      текст про «в современном мире» — и закрыл. Ты не ошиблась в выводе. Ты
+      ошиблась в эксперименте.
     </p>
     <div class="head__actions">
-      <a class="btn btn--solid" href={site.links.telegram}>Узнать о ближайшем потоке</a>
+      <a class="btn btn--solid" href={site.links.telegram}>Спросить про интенсив</a>
     </div>
   </section>
 
@@ -49,7 +61,7 @@ const parts = [
     <div class="parts">
       {
         parts.map((part) => (
-          <div class="part">
+          <div class="paper part">
             <h3>{part.title}</h3>
             <p>{part.text}</p>
           </div>
@@ -59,121 +71,175 @@ const parts = [
   </section>
 
   <section class="shell block">
+    <div class="money">
+      <div>
+        <p class="money__num">4 900 ₽</p>
+        <p class="money__note">Такая цена, потому что поток первый.</p>
+      </div>
+      <div class="money__honest">
+        <p class="eyebrow">честно про вход</p>
+        <p>
+          Сама нейросеть — отдельные деньги. Клод — 2 000–3 000 ₽ в месяц, чат
+          GPT — около 900 ₽, VPN — рублей 300. Если ты не в маркетинге, тебе
+          хватит варианта за 900. Где брать, как оплатить и что делать, если
+          карта не работает, разберём в первый же день. Это та стена, о которую
+          большинство разбилось и решило, что нейронки не работают.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell block">
     <div class="split">
       <div>
         <h2 class="block__title">Кому подойдёт</h2>
         <ul class="list">
-          <li>Экспертам и специалистам, которые сами ведут свой блог</li>
-          <li>Тем, кто пользуется нейросетями урывками: начала и бросила</li>
-          <li>Тем, у кого клиенты съедают всё время, а на своё не остаётся</li>
+          {forWhom.map((item) => <li>{item}</li>)}
         </ul>
       </div>
-      <div>
-        <h2 class="block__title">Чего тут не будет</h2>
-        <ul class="list list--muted">
-          <li>Обещаний, что блог начнёт вести себя сам</li>
-          <li>Универсальных промптов «для всех ниш сразу»</li>
-          <li>Технических лекций про устройство моделей</li>
+      <div class="paper">
+        <p class="eyebrow">кому точно не надо</p>
+        <ul class="list list--no">
+          {notFor.map((item) => <li>{item}</li>)}
         </ul>
       </div>
     </div>
   </section>
 
+  <section class="shell block">
+    <h2 class="block__title">Почему даты такие</h2>
+    <p class="dates">
+      6 сентября я уезжаю в отпуск, поэтому поток один и он сейчас. Заканчиваем
+      4-го — в сентябрь ты входишь с настроенной системой. Как проходит твой
+      сентябрь обычно, ты помнишь.
+    </p>
+  </section>
+
   <section class="shell">
     <aside class="cta">
       <p class="cta__line">
-        Даты следующего потока и условия объявляю в канале.
-        Там же можно задать вопрос до покупки.
+        Напиши мне в Телеграм — расскажу подробнее и отвечу на вопросы до
+        оплаты. Отвечаю я сама.
       </p>
-      <a class="btn btn--solid" href={site.links.telegram}>Перейти в Телеграм</a>
+      <a class="btn btn--solid" href={site.links.telegram}>Написать</a>
     </aside>
   </section>
 </Base>
 
 <style>
-  .head {
-    padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(2rem, 5vw, 3rem);
-  }
-
-  .head__tag {
-    margin: 0 0 1.25rem;
-  }
+  .head { padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(2rem, 5vw, 3rem); }
 
   .head__title {
-    font-size: clamp(2.25rem, 1.3rem + 4.2vw, 4.5rem);
+    margin-top: 1rem;
+    font-size: clamp(2.25rem, 1.3rem + 4.2vw, 4.25rem);
     max-width: 14ch;
   }
 
   .head__lead {
-    margin-top: 1.35rem;
+    margin-top: 1.5rem;
     max-width: var(--measure);
     font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.1875rem);
     color: var(--ink-mute);
   }
 
-  .head__actions {
-    margin-top: 2rem;
-  }
+  .head__actions { margin-top: 2rem; }
 
-  .block {
-    margin-top: clamp(3rem, 8vw, 5rem);
-  }
+  .block { margin-top: clamp(3rem, 8vw, 5rem); }
 
-  .block__title {
-    font-size: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
-  }
+  .block__title { font-size: clamp(1.5rem, 1.25rem + 1.2vw, 2.125rem); }
 
   .parts {
     display: grid;
-    gap: clamp(1.5rem, 4vw, 2.25rem);
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     margin-top: 2rem;
   }
 
-  .part h3 {
-    padding-top: 1rem;
-    border-top: 2px solid var(--ink);
-    font-size: 1.0625rem;
-  }
+  .part h3 { font-size: 1.0625rem; letter-spacing: -0.02em; }
 
   .part p {
-    margin-top: 0.7rem;
+    margin-top: 0.8rem;
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  .money {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  @media (min-width: 52rem) {
+    .money { grid-template-columns: 14rem minmax(0, 1fr); }
+  }
+
+  .money__num {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+    letter-spacing: -0.03em;
+  }
+
+  .money__note {
+    margin-top: 0.6rem;
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+  }
+
+  .money__honest p:last-child {
+    margin-top: 0.8rem;
+    max-width: var(--measure);
     font-size: 0.9375rem;
     color: var(--ink-mute);
   }
 
   .split {
     display: grid;
-    gap: clamp(2rem, 5vw, 3.5rem);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
     grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    align-items: start;
   }
 
   .list {
-    margin: 1.25rem 0 0;
-    padding-left: 1.1em;
-    max-width: 32ch;
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+    max-width: 34ch;
   }
 
-  .list li + li {
-    margin-top: 0.6em;
-  }
-
-  .list li::marker {
-    color: var(--mark);
-  }
-
-  .list--muted {
+  .list li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: 0.9375rem;
     color: var(--ink-mute);
   }
 
-  .list--muted li::marker {
-    color: var(--rule-strong);
+  .list li::before {
+    content: '·';
+    position: absolute;
+    left: 0.3rem;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .list--no li::before {
+    content: '×';
+    left: 0.2rem;
+    color: var(--pen);
+    font-weight: 600;
+  }
+
+  .dates {
+    margin-top: 1.2rem;
+    max-width: var(--measure);
+    color: var(--ink-mute);
   }
 
   .cta {
     margin-top: clamp(3.5rem, 9vw, 5.5rem);
     padding: clamp(2rem, 5vw, 3rem);
-    background: var(--paper-raised);
+    background: var(--ink);
+    color: var(--paper);
   }
 
   .cta__line {
@@ -182,4 +248,12 @@ const parts = [
     font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
     line-height: 1.4;
   }
+
+  .cta .btn--solid {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+  }
+
+  .cta .btn--solid:hover { background: #fff; color: #000; }
 </style>
