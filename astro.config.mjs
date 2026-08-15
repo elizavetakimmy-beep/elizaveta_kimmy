@@ -3,9 +3,9 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  // TODO: заменить на реальный адрес после первого деплоя —
-  // от него зависят карта сайта, RSS и ссылки для поисковиков.
-  site: 'https://example.com',
+  // От этого адреса считаются карта сайта, RSS и ссылки для поисковиков.
+  // Поменять, когда появится свой домен.
+  site: 'https://elizaveta-kimmy.pages.dev',
   integrations: [sitemap()],
   build: {
     // Адреса вида /blog/название/ — с завершающим слэшем

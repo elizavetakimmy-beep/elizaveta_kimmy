@@ -10,8 +10,7 @@ export const site = {
   // Показывается в поиске и при отправке ссылки в мессенджер
   description:
     'Лиза, маркетолог. Помогаю экспертам получать продажи через блог без сторис 24/7. Статьи о продвижении, нейросетях и работе без выгорания.',
-  // TODO: подставить рабочий адрес после деплоя
-  url: 'https://example.com',
+  url: 'https://elizaveta-kimmy.pages.dev',
   links: {
     instagram: 'https://instagram.com/elizaveta_kimmy',
     // TODO: заменить на реальный адрес канала
