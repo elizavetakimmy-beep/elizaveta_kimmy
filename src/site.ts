@@ -13,8 +13,7 @@ export const site = {
   url: 'https://elizaveta-kimmy.pages.dev',
   links: {
     instagram: 'https://instagram.com/elizaveta_kimmy',
-    // TODO: заменить на реальный адрес канала
-    telegram: 'https://t.me/elizaveta_kimmy',
+    telegram: 'https://t.me/kimmy_marketing',
     email: 'elizaveta.kimmy@gmail.com',
   },
 };
