@@ -349,6 +349,9 @@ nav, .row { display:flex; }
 .s1__lead b { color:#f4f4f2; font-weight:600; }
 .s1__btn { font-size:1.3cqw; font-weight:600; padding:1.15em 2.2em; background:#f4f4f2; color:#0b0b0c; white-space:nowrap; }
 
+/* Тот же экран, но фигура в цвете — единственное цветное пятно на чёрном */
+.s1--color .s1__ph { background-image:var(--cut-color); filter:drop-shadow(0 0 3cqw rgba(0,0,0,.9)) saturate(1.04); }
+
 /* ═══ 2. ПОЛОТНО ═══ */
 .s2 { position:relative; background:#5c5c5e; color:#fff; overflow:hidden; }
 .s2__ph { position:absolute; inset:0; background-image:var(--ph-cafe); background-size:cover; background-position:62% 24%; filter:grayscale(1) contrast(1.05); }
@@ -478,7 +481,23 @@ nav, .row { display:flex; }
         <span class="s1__btn">Телеграм-канал</span>
       </div>
     </div>
-    <p class="note"><b>Приём.</b> Гигантом набрана фраза, которую твоя читательница сама печатала в нейронку, фото стоит перед буквами и перекрывает их середину. Узнавание срабатывает раньше, чем она прочтёт слово о тебе.</p>
+    <p class="note"><b>Приём.</b> Гигантом набрана фраза, которую твоя читательница сама печатала в нейронку, фигура стоит перед буквами. Обтравка открывает фон целиком, поэтому слово читается по всей ширине.</p>
+  </section>
+
+  <!-- 1б -->
+  <section class="item">
+    <div class="item__bar"><span class="item__key">1б</span><h2 class="item__name">Монолит в цвете</h2><p class="item__ref">та же фигура, но не обесцвеченная</p></div>
+    <div class="screen s1 s1--color">
+      <div class="s1__top"><span class="s1__logo">elizaveta_kimmy</span><nav><span>Статьи · Интенсив · О себе</span></nav></div>
+      <p class="s1__quote">&gt; напиши пост<br />про выгорание</p>
+      <div class="s1__word">НАПИШИ<br />ПОСТ</div>
+      <div class="s1__ph"></div>
+      <div class="s1__foot">
+        <p class="s1__lead"><b>Ты попросила и закрыла вкладку.</b> Маркетолог, работаю с нейронками каждый день на трёх проектах. Показываю, что происходит между этим запросом и рабочим текстом.</p>
+        <span class="s1__btn">Телеграм-канал</span>
+      </div>
+    </div>
+    <p class="note"><b>Разница.</b> Фигура остаётся единственным цветным пятном на чёрном экране — джинсы и кожа сразу тянут взгляд на тебя. Чёрно-белая версия строже и ближе к референсу, цветная теплее и живее.</p>
   </section>
 
   <!-- 2 -->
