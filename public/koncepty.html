@@ -394,21 +394,27 @@ nav, .row { display:flex; }
 .s4__ph { aspect-ratio:3/4; background-image:var(--ph-profile); background-size:cover; background-position:50% 20%; filter:grayscale(1) brightness(.86) contrast(1.15);
   -webkit-mask-image:radial-gradient(120% 90% at 50% 45%,#000 52%,transparent 100%); mask-image:radial-gradient(120% 90% at 50% 45%,#000 52%,transparent 100%); }
 
-/* ═══ 5. ВИТРИНА ═══ */
-.s5 { background:#121214; padding:2.2cqw; display:grid; grid-template-columns:1.55fr 1fr; grid-template-rows:auto 1fr auto; gap:1.2cqw; color:#f2f1ee; }
-.s5__bar { grid-column:1/-1; display:flex; justify-content:space-between; align-items:center; padding:1.4cqw 2cqw; background:#1c1c1f; border-radius:1.1cqw; font-size:1.2cqw; color:#9a9b9f; }
+/* ═══ 5. ВИТРИНА ═══
+   Одна сцена без деления на «фото | текст»: фигура вырезана и стоит
+   внутри кадра, заходя на край панели и на строку фактов. */
+.s5 { position:relative; background:#101012; padding:2.2cqw; display:grid; grid-template-rows:auto 1fr auto; gap:1.2cqw; color:#f2f1ee; }
+.s5__bar { display:flex; justify-content:space-between; align-items:center; padding:1.4cqw 2cqw; background:#1a1a1d; border-radius:1.1cqw; font-size:1.2cqw; color:#9a9b9f; position:relative; z-index:3; }
 .s5__logo { font-family:'Geologica',sans-serif; font-weight:800; font-size:1.5cqw; color:#f2f1ee; }
-.s5__hero { background:#1c1c1f; border-radius:1.4cqw; padding:3cqw; display:grid; align-content:center; gap:2.2cqw; }
-.s5__title { font-family:'Playfair Display',serif; font-weight:700; font-size:6.4cqw; line-height:1.02; }
+.s5__stage { position:relative; border-radius:1.4cqw; overflow:hidden;
+  background:radial-gradient(85% 120% at 78% 78%, #35353c 0%, #1e1e22 46%, #141416 100%);
+  padding:3.4cqw; display:grid; align-content:center; }
+.s5__title { position:relative; z-index:2; font-family:'Playfair Display',serif; font-weight:700; font-size:6cqw; line-height:1.02; max-width:11ch; }
 .s5__title i { font-style:italic; font-weight:500; }
-.s5__title span { display:block; font-family:'Geologica',sans-serif; font-weight:300; font-size:.4em; color:#a9aaae; margin-top:1cqw; }
-.s5__lead { font-size:1.3cqw; line-height:1.6; color:#a9aaae; max-width:36ch; }
-.s5__btn { justify-self:start; font-size:1.3cqw; font-weight:600; padding:1.1em 2em; background:#f2f1ee; color:#121214; border-radius:10cqw; }
-.s5__side { display:grid; gap:1.2cqw; }
-.s5__ph { border-radius:1.4cqw; background-image:var(--ph-main); background-size:cover; background-position:50% 14%; }
-.s5__ph--2 { background-image:var(--ph-cafe); background-position:50% 26%; }
-.s5__facts { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,1fr); gap:1.2cqw; }
-.s5__fact { background:#1c1c1f; border-radius:1.1cqw; padding:1.7cqw 2cqw; display:flex; align-items:baseline; gap:1cqw; }
+.s5__title span { display:block; font-family:'Geologica',sans-serif; font-weight:300; font-size:.36em; color:#a9aaae; margin-top:1.2cqw; }
+.s5__lead { position:relative; z-index:2; margin-top:2cqw; font-size:1.3cqw; line-height:1.6; color:#a9aaae; max-width:30ch; }
+.s5__btn { position:relative; z-index:2; justify-self:start; margin-top:2.6cqw; font-size:1.3cqw; font-weight:600; padding:1.1em 2em; background:#f2f1ee; color:#121214; border-radius:10cqw; }
+.s5__glow { position:absolute; right:5cqw; bottom:-9cqw; width:44cqw; height:44cqw; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.17) 0%, rgba(255,255,255,0) 68%); z-index:1; }
+.s5__figure { position:absolute; right:0.6cqw; bottom:0; width:31cqw; height:66cqw; z-index:4;
+  background-image:var(--cut-color); background-size:contain; background-position:50% 100%; background-repeat:no-repeat;
+  filter:drop-shadow(-1.4cqw 1cqw 2.6cqw rgba(0,0,0,.8)); pointer-events:none; }
+.s5__facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.2cqw; width:63%; position:relative; z-index:2; }
+.s5__fact { background:#1a1a1d; border-radius:1.1cqw; padding:1.7cqw 2cqw; display:flex; align-items:baseline; gap:1cqw; }
 .s5__fact b { font-family:'Playfair Display',serif; font-weight:700; font-size:2.4cqw; }
 .s5__fact span { font-size:1.1cqw; color:#9a9b9f; line-height:1.4; }
 
@@ -567,19 +573,19 @@ nav, .row { display:flex; }
     <div class="item__bar"><span class="item__key">5</span><h2 class="item__name">Витрина</h2><p class="item__ref">референс: «SOLÉNA»</p></div>
     <div class="screen s5">
       <div class="s5__bar"><span class="s5__logo">elizaveta_kimmy</span><span>Статьи · Интенсив · О себе</span><span>Ростов · 2026</span></div>
-      <div class="s5__hero">
+      <div class="s5__stage">
+        <div class="s5__glow"></div>
         <h3 class="s5__title">Нейронка <i>печатает</i>. Думаешь ты<span>Маркетолог, шесть лет в онлайне</span></h3>
         <p class="s5__lead">Работаю с нейронками каждый день на трёх проектах. Разбираю, что из твоих задач ускоряется, и собираю промпты под них.</p>
         <span class="s5__btn">Телеграм-канал</span>
       </div>
-      <div class="s5__side"><div class="s5__ph"></div></div>
       <div class="s5__facts">
         <div class="s5__fact"><b>6</b><span>лет в онлайне</span></div>
-        <div class="s5__fact"><b>3</b><span>проекта через нейронку</span></div>
-        <div class="s5__fact"><b>10</b><span>человек в потоке</span></div>
-      </div>
+        <div class="s5__fact"><b>3</b><span>проекта каждый день через нейронку</span></div>
+        </div>
+      <div class="s5__figure"></div>
     </div>
-    <p class="note"><b>Приём.</b> Модульная сетка: каждая ячейка отвечает за одно — имя, фото, цифры, действие. Курсив в одном слове даёт дорогую ноту, гротеск рядом держит её от красивости.</p>
+    <p class="note"><b>Приём.</b> Деления на фото и текст нет: фигура вырезана и стоит внутри сцены, заходя на край панели и на строку фактов. Под ней пятно света и своя тень, поэтому она читается объёмной.</p>
   </section>
 
   <!-- 6 -->
