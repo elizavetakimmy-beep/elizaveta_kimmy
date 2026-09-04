@@ -13,12 +13,16 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft)).so
   title="Статьи"
   description="Инструкции и разборы: как настроить нейронку под себя, где она помогает в работе с клиентами, а где приходится править руками."
 >
-  <section class="shell head">
-    <h1 class="head__title">Статьи</h1>
-    <p class="head__lead">
-      Разборы, эксперименты и рабочие приёмы. Всё, что здесь написано, я сначала
-      пробовала <span class="marker">на своём блоге</span>.
-    </p>
+  <section class="sec head">
+    <div class="glow" style="left:-10rem;top:-12rem;width:36rem;height:28rem"></div>
+    <div class="shell" style="position:relative">
+      <p class="kicker">разборы · промпты · приёмы</p>
+      <h1 class="h2 silver" style="margin-top:.75rem">Статьи</h1>
+      <p class="lead">
+        Разборы, эксперименты и рабочие приёмы. Всё, что здесь написано, я сначала пробовала на
+        своём блоге.
+      </p>
+    </div>
   </section>
 
   <section class="shell">
@@ -44,26 +48,13 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft)).so
 </Base>
 
 <style>
-  .head {
-    padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(1.5rem, 4vw, 2.5rem);
-  }
-
-  .head__title {
-    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
-  }
-
-  .head__lead {
-    margin-top: 1.1rem;
-    max-width: var(--measure);
-    font-size: 1.0625rem;
-    color: var(--ink-mute);
-  }
+  .head { padding-bottom: clamp(1.5rem, 4vw, 2.5rem); }
 
   .feed {
-    border-bottom: 1px solid var(--rule);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
   }
 
-  .empty {
-    color: var(--ink-mute);
-  }
+  .empty { color: var(--ink-mute); }
 </style>

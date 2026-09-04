@@ -37,11 +37,10 @@ const { title, lead, date, topic } = entry.data;
 
       <footer class="tail">
         <p class="tail__line">
-          Пишу ещё в Телеграме — там разборы подробнее и
-          промпты, которые можно скопировать.
+          Пишу ещё в Телеграме — там разборы подробнее и промпты, которые можно скопировать.
         </p>
         <div class="tail__actions">
-          <a class="btn btn--solid" href={site.links.telegram}>Телеграм-канал</a>
+          <a class="btn" href={site.links.telegram}>Телеграм-канал</a>
           <a class="btn btn--ghost" href="/blog/">Другие статьи</a>
         </div>
       </footer>
@@ -59,7 +58,8 @@ const { title, lead, date, topic } = entry.data;
     align-items: center;
     gap: 0.6rem;
     flex-wrap: wrap;
-    font-size: 0.8125rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
     color: var(--ink-mute);
     margin-bottom: 1.1rem;
   }
@@ -81,28 +81,32 @@ const { title, lead, date, topic } = entry.data;
     max-width: var(--measure);
     font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
     line-height: 1.7;
+    color: var(--text);
   }
 
-  .prose :global(> * + *) {
-    margin-top: 1.35em;
-  }
+  .prose :global(> * + *) { margin-top: 1.35em; }
 
   .prose :global(h2) {
     margin-top: 2.4em;
     font-size: 1.5em;
     line-height: 1.2;
+    color: var(--ink);
   }
 
-  .prose :global(h3) {
-    margin-top: 2em;
-    font-size: 1.18em;
+  .prose :global(h3) { margin-top: 2em; font-size: 1.18em; color: var(--ink); }
+
+  .prose :global(strong) { color: var(--ink); }
+
+  .prose :global(a) {
+    color: var(--ink);
+    border-bottom: 1px solid var(--acc);
   }
 
   .prose :global(blockquote) {
     margin-inline: 0;
     padding-left: 1.2em;
-    border-left: 1px solid var(--rule-strong);
-    font-size: 1.2em;
+    border-left: 2px solid var(--acc);
+    font-size: 1.15em;
     line-height: 1.4;
     font-weight: 500;
     color: var(--ink);
@@ -111,76 +115,72 @@ const { title, lead, date, topic } = entry.data;
   .prose :global(ul),
   .prose :global(ol) {
     padding-left: 1.2em;
+    list-style: revert;
   }
 
-  .prose :global(li + li) {
-    margin-top: 0.5em;
+  .prose :global(li + li) { margin-top: 0.5em; }
+  .prose :global(li::marker) { color: var(--acc); }
+
+  .prose :global(pre) {
+    padding: 1rem 1.2rem;
+    border-radius: 0.9rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    font-size: 0.85em;
+    overflow-x: auto;
   }
 
-  .prose :global(li::marker) {
-    color: var(--mark);
+  .prose :global(code) {
+    font-family: var(--mono);
+    font-size: 0.9em;
   }
 
-  .prose :global(strong) {
-    font-weight: 600;
+  .prose :global(:not(pre) > code) {
+    padding: 0.1em 0.4em;
+    border-radius: 0.3em;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
   }
 
-  .prose :global(a) {
-    text-decoration-color: var(--mark);
+  .prose :global(img) {
+    border-radius: 0.9rem;
+    border: 1px solid var(--rule);
   }
 
   .prose :global(hr) {
     border: 0;
     border-top: 1px solid var(--rule);
-    margin-block: 2.5em;
   }
 
-  .prose :global(code) {
-    font-size: 0.88em;
-    padding: 0.15em 0.35em;
-    background: var(--paper-raised);
-    border-radius: 2px;
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
   }
 
-  .prose :global(pre) {
-    padding: 1.1em 1.25em;
-    overflow-x: auto;
-    background: var(--paper-raised);
-    border-radius: 2px;
-    font-size: 0.875em;
-    line-height: 1.55;
-  }
-
-  .prose :global(pre code) {
-    padding: 0;
-    background: none;
-  }
-
-  .prose :global(img) {
-    border-radius: 2px;
-  }
-
-  .prose :global(figcaption) {
-    margin-top: 0.6em;
-    font-size: 0.8125rem;
-    color: var(--ink-mute);
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 0.6em 0.8em;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+    vertical-align: top;
   }
 
   .tail {
-    margin-top: clamp(3rem, 8vw, 4.5rem);
-    padding-top: 2rem;
-    border-top: 1px solid var(--rule);
+    margin-top: clamp(3rem, 8vw, 5rem);
     max-width: var(--measure);
+    padding: 1.75rem;
+    border-radius: 1.1rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
   }
 
-  .tail__line {
-    font-size: 1.125rem;
-  }
+  .tail__line { font-size: 1.05rem; color: var(--ink); }
 
   .tail__actions {
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
   }
 </style>

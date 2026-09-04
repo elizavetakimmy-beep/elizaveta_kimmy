@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatDate, legalDocs } from '../../site';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, updated } = entry.data;
+---
+
+<Base title={title} description={`${title}. Редакция от ${formatDate(updated)}.`} variant="reading">
+  <article class="doc">
+    <header class="shell doc__head">
+      <p class="kicker">документы · редакция от {formatDate(updated)}</p>
+      <h1 class="doc__title">{title}</h1>
+      <nav class="doc__nav" aria-label="Другие документы">
+        {legalDocs.map((d) => (
+          <a href={d.href} aria-current={Astro.url.pathname === d.href ? 'page' : undefined}>{d.label}</a>
+        ))}
+      </nav>
+    </header>
+
+    <div class="shell">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .doc__head { padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(1.5rem, 4vw, 2.5rem); }
+
+  .doc__title {
+    margin-top: 0.75rem;
+    font-size: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+    max-width: 24ch;
+  }
+
+  .doc__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .doc__nav a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-mute);
+  }
+
+  .doc__nav a:hover { color: var(--ink); border-color: var(--ink); }
+  .doc__nav a[aria-current='page'] { color: #d9c8ff; border-color: var(--acc); background: var(--acc-tint); }
+
+  .prose {
+    max-width: 46rem;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .prose :global(> * + *) { margin-top: 1em; }
+  .prose :global(h2) { margin-top: 2.2em; font-size: 1.25rem; color: var(--ink); }
+  .prose :global(h3) { margin-top: 1.6em; font-size: 1.05rem; color: var(--ink); }
+  .prose :global(ul) { padding-left: 1.2em; list-style: disc; }
+  .prose :global(li + li) { margin-top: 0.35em; }
+  .prose :global(li::marker) { color: var(--acc); }
+  .prose :global(strong) { color: var(--ink); }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 0.6em 0.8em;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .prose :global(th) { color: var(--ink); font-weight: 600; }
+</style>

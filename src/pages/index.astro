@@ -1,193 +1,224 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import Marker from '../components/Marker.astro';
 import { site, readingTime } from '../site';
+
+/* Тексты — «Личный блог/тексты_главная_04.09.md»: витрина линейки,
+   два пути «Сами» и «Со мной» по продуктовой матрице и созвону 3.09. */
 
 const articles = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 2);
+  .slice(0, 3);
 
-/* Задачи для экрана «показ процесса».
-   TODO (Лиза): подставить тайминг «было / стало» по каждой. */
-const tasks = [
+const self = [
   {
-    name: 'Карусель',
-    hand: 'тему, смысл и порядок слайдов держу я',
-    ai: 'раскладывает по слайдам и даёт три варианта первого',
+    n: '01',
+    title: 'Телеграм-канал, бесплатно',
+    text: 'Промпты, которые копируются одним тапом, разборы и мои цифры, включая недели, где ничего не выросло. Кодовые слова из рилсов ведут сюда.',
+    link: { href: site.links.telegram, label: 'Подписаться' },
   },
   {
-    name: 'Монтаж рилса',
-    hand: 'снимаю и решаю, что оставить',
-    ai: 'чистит расшифровку, собирает субтитры и находит склейки',
+    n: '02',
+    title: 'Интенсив в записи, 2 900 ₽',
+    text: 'Восемь уроков до пятнадцати минут: ставите Клод, настраиваете под себя и делаете карусели, сценарии и монтаж рилсов сами. Доступ два месяца. За 4 900 ₽ добавляются три недели чата со мной.',
+    link: { href: '/intensive/', label: 'Программа и тарифы' },
+    hot: true,
   },
   {
-    name: 'Разбор аудитории',
-    hand: 'задаю вопросы и проверяю выводы на своих клиентах',
-    ai: 'сводит комментарии и переписки в понятную картину',
+    n: '03',
+    title: 'Клуб для тех, кто прошёл интенсив',
+    text: 'Позже. Пока не запускаю. Семь человек первого потока уже внутри.',
   },
 ];
+
+const withMe = [
+  {
+    n: '01',
+    title: 'Две консультации, 10 000 ₽',
+    text: 'Для тех, кто уже работает в Клоде. На первом созвоне разбираем ваши задачи. Между созвонами я собираю под них промпты и скиллы. На втором показываю, куда что закидывать. Потом можно писать с вопросами.',
+  },
+  {
+    n: '02',
+    title: 'Упаковка, полтора месяца, 40 000 ₽',
+    text: 'Разбираем блог целиком: закрепы, сторис, сайт, мини-продукт и воронка к нему. Я говорю, что делать, вы делаете. Три места по этой цене, дальше дороже.',
+  },
+  {
+    n: '03',
+    title: 'Сопровождение, помесячно',
+    text: 'Я ваш маркетолог, вы про это больше не думаете. Начинается после упаковки, цену обсуждаем лично.',
+  },
+];
+
+const claudeDoes = [
+  ['Сценарии рилс', true], ['Карусели', true], ['Монтаж рилса', true], ['Разбор конкурентов', true],
+  ['Расшифровка созвонов', true], ['Разбор аудитории', true], ['Банк тем', true],
+  ['Стратегия', false], ['Смыслы и оффер', false], ['Созвоны с клиентом', false], ['Решение, что делать', false], ['Съёмка', false],
+] as const;
 
 const faq = [
   {
-    q: 'Сколько времени это займёт',
-    a: 'Задания до тридцати минут, уроки короткие, смотришь с телефона. Мы не проходим программу — разбираем твои задачи, те, что ты и так делаешь.',
+    q: 'Интенсив, консультации или упаковка, что брать мне',
+    a: 'Если ещё не ставили Клод и ведёте блог сами, интенсив. Если уже работаете в Клоде и упёрлись в то, что половина задач всё ещё руками, консультации. Если времени на своё нет вообще, упаковка. Если сомневаетесь, напишите, разберём в переписке.',
   },
   {
-    q: 'Я пробовала, оно пишет фигню',
-    a: 'Так и есть, если просить «напиши пост». Разница между таким запросом и «вот мои тексты, вот как я шучу, вот слова, которые я никогда не употребляю» — это разница между мусором и рабочим черновиком.',
+    q: 'Если через нейронку, за что мне тогда платят клиенты',
+    a: 'Нейросеть не знает, что сказать. Знаете вы. Кто не разбирается в теме, получит из неё мусор и не заметит. Вы получите рабочий материал, потому что вам есть чем его оценить.',
   },
   {
     q: 'Я не технарь, я не разберусь',
-    a: 'И не надо им становиться. Там нет ни одной инструкции про интеграции. Открыть, потыкать, посмотреть, что вышло. Я сама начинала с того, что выходило странно и мне не нравилось.',
+    a: 'И не надо им становиться. Ни в интенсиве, ни в работе со мной нет инструкций про интеграции и ботов. Открыть, потыкать, посмотреть, что вышло. Я сама начинала с того, что выходило странно и мне не нравилось.',
   },
-  {
-    q: 'У меня своя специфика — психология, нутрициология, преподавание',
-    a: 'И правильно, что там нельзя просто сгенерить. Поэтому мы и говорим лично: я разбираю, что конкретно у тебя за задачи и что из них ускоряется. Промпты собираю под тебя.',
-  },
-  {
-    q: 'А если я не дойду, как всегда',
-    a: 'Тут не получится две недели смотреть уроки и ничего не сделать: мы говорим лично, и я вижу, что у тебя происходит. Пропустишь пару дней — догонишь, записи остаются, никто твои пропуски вслух не считает.',
-  },
-];
-
-const notFor = [
-  'Хочешь, чтобы контент делался без твоего участия',
-  'Нет двадцати минут в день ближайшие две недели',
-  'Нужны интеграции, боты и техническая настройка',
-  'Ждёшь роста продаж к конкретной дате',
 ];
 ---
 
-<Base>
-  <!-- 1. Узнавание -->
-  <section class="hero shell">
-    <div class="hero__text">
-      <p class="eyebrow">Лиза Ким · маркетолог · Ростов</p>
-
-      <h1 class="hero__title">
-        Ты попросила «напиши пост» — и <Marker>закрыла вкладку</Marker>
-      </h1>
-
-      <p class="hero__lead">
-        Я работаю с нейронками каждый день на трёх проектах. Показываю, как это
-        выглядит на самом деле: с кривыми первыми ответами и с местами, где я
-        всё равно переписываю руками.
-      </p>
-
-      <div class="hero__actions">
-        <a class="btn btn--solid" href={site.links.telegram}>Телеграм-канал</a>
-        <a class="btn btn--ghost" href="#process">Что я показываю</a>
-      </div>
-    </div>
-
-    <figure class="hero__photo">
-      <img src="/liza.jpg" alt="Лиза Ким" width="675" height="1200" />
-      <figcaption class="sticker">первой скажу, где Клод не тянет</figcaption>
-    </figure>
-  </section>
+<Base hero>
+  <!-- 1. Первый экран -->
+  <Hero buttonLabel="Телеграм-канал" buttonHref={site.links.telegram}>
+    <b>Вы попросили и закрыли вкладку.</b> Я маркетолог, работаю с нейронками каждый день. Показываю, что происходит между этим запросом и рабочим текстом.
+  </Hero>
 
   <!-- 2. Переворот -->
-  <section class="shell block">
-    <h2 class="block__title">Ты не ошиблась в выводе. Ты ошиблась в эксперименте</h2>
+  <section class="sec sec--light">
+    <div class="sphere" style="width:16rem;height:16rem;right:-5rem;top:1rem;opacity:.9"></div>
+    <div class="shell">
+      <h2 class="h2 rv">Безликий текст получается<br />из безликого запроса</h2>
+      <p class="lead rv">
+        Нейросеть не знает вашего голоса, потому что его ей никто не показал. И не знает вашего
+        проекта, ваших клиентов, ваших задач, по той же причине.
+      </p>
 
-    <p class="block__lead">
-      Безликий текст получается из безликого запроса. Она не знает твоего
-      голоса, потому что его ей никто не показал. И не знает твоего проекта,
-      твоих клиентов, твоих задач — по той же причине.
-    </p>
-
-    <div class="compare">
-      <div class="paper">
-        <p class="eyebrow">так просят обычно</p>
-        <p class="prompt"><span class="dim">&gt;</span> напиши пост про выгорание</p>
-        <p class="compare__out compare__out--dead">
-          В современном мире выгорание становится всё более актуальной
-          проблемой. Многие специалисты сталкиваются с…
-        </p>
+      <div class="compare">
+        <div class="paper rv">
+          <p class="kicker">так просят обычно</p>
+          <p class="prompt"><span class="dim">&gt;</span> напиши пост про выгорание</p>
+          <p class="out out--dead">
+            В современном мире выгорание становится всё более актуальной проблемой. Многие
+            специалисты сталкиваются с…
+          </p>
+        </div>
+        <div class="paper paper--light paper--tilt rv">
+          <p class="kicker">так прошу я</p>
+          <p class="prompt">
+            <span class="dim">&gt;</span> вот три моих поста, вот как я шучу, вот слова, которые я
+            никогда не пишу. Тема: выгорание
+          </p>
+          <p class="out">
+            Я не выгорела. Я просто перестала успевать делать для себя то, что делаю для
+            клиентов…
+          </p>
+        </div>
       </div>
 
-      <div class="paper paper--tilt">
-        <p class="eyebrow">так прошу я</p>
-        <p class="prompt">
-          <span class="dim">&gt;</span> вот три моих поста, вот как я шучу, вот
-          слова, которые я никогда не пишу. Тема — выгорание
-        </p>
-        <p class="compare__out">
-          Я не выгорела. Я просто перестала успевать делать для себя то, что
-          делаю для клиентов…
-        </p>
-      </div>
+      <p class="thesis rv">
+        Она не заменит человека. Она сделает вашу работу проще, легче и интереснее. Нейросеть не
+        знает, что сказать. <span class="serif-i">Знаете вы.</span> Она быстро печатает.
+      </p>
+      <p class="big rv">
+        Я маркетолог, который довёл свою работу до системы на нейронках и ставит такую же клиенту.
+      </p>
     </div>
   </section>
 
-  <!-- 3. Показ процесса -->
-  <section class="shell block" id="process">
-    <h2 class="block__title">Смотри, как это выглядит на самом деле</h2>
-    <p class="block__lead">
-      Три задачи, которые у меня повторяются каждую неделю. По каждой видно, что
-      делаю я, а что она.
-    </p>
+  <!-- 3. Как со мной работать -->
+  <section class="sec" id="work">
+    <div class="glow" style="left:-12rem;top:-10rem;width:40rem;height:32rem"></div>
+    <div class="shell">
+      <p class="kicker rv">два пути · сами или со мной</p>
+      <h2 class="h2 rv" style="margin-top:.75rem">Как со мной <span class="violet">работать</span></h2>
+      <p class="lead rv">
+        Одним нужно уметь самим, другим нужен маркетолог. Это разные люди, поэтому пути два. Куда бы
+        вы ни пошли, нейросети внутри одни и те же: те, на которых работаю я.
+      </p>
 
-    <ul class="tasks">
-      {
-        tasks.map((task) => (
-          <li class="paper task">
-            <h3 class="task__name">{task.name}</h3>
-            <p class="task__row">
-              <span class="task__lab">руками</span>
-              {task.hand}
-            </p>
-            <p class="task__row">
-              <span class="task__lab task__lab--ai">нейронка</span>
-              {task.ai}
-            </p>
-          </li>
-        ))
-      }
-    </ul>
+      <div class="paths">
+        <div class="path">
+          <h3 class="path__title rv">Сами <span>ведёте блог сами и хотите уметь</span></h3>
+          {self.map((s) => (
+            <div class={`step rv${s.hot ? ' step--hot' : ''}`}>
+              <span class="mono num">{s.n}</span>
+              <div>
+                <h4>{s.title}</h4>
+                <p>{s.text}</p>
+                {s.link && <a class="more" href={s.link.href}>{s.link.label} →</a>}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="path">
+          <h3 class="path__title rv">Со мной <span>времени на своё нет, нужен маркетолог</span></h3>
+          {withMe.map((s) => (
+            <div class="step rv">
+              <span class="mono num">{s.n}</span>
+              <div>
+                <h4>{s.title}</h4>
+                <p>{s.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="actions rv">
+        <a class="btn" href={site.links.telegramPersonal}>Написать в Телеграм</a>
+        <p class="note">Если непонятно, с чего начать, напишите.</p>
+      </div>
+
+      <p class="kicker rv" style="margin:3rem 0 1rem">что в моей работе делает Клод · подсвечено то, что отдала ему, серое делаю руками</p>
+      <div class="chips rv">
+        {claudeDoes.map(([t, on]) => <span class={`chip${on ? ' chip--on' : ''}`}>{t}{on ? ' ✓' : ''}</span>)}
+      </div>
+    </div>
   </section>
 
   <!-- 4. Кто это говорит -->
-  <section class="shell block">
-    <div class="who">
+  <section class="sec sec--light">
+    <div class="sphere sphere--v" style="width:9rem;height:9rem;left:-3rem;bottom:2rem;animation-delay:-3s"></div>
+    <div class="shell who">
       <div>
-        <h2 class="block__title">
-          Я маркетолог, который этим пользуется каждый день, а не нейро-гуру
-        </h2>
-        <p class="who__text">
-          Шесть лет в онлайне. Дважды платила за обучение своими деньгами. И
-          первой скажу, где Клод не тянет: он умеет писать как искусственный
-          интеллект, души там нет. Мозг включаешь ты.
+        <h2 class="h2 rv">Я маркетолог, который этим пользуется каждый день</h2>
+        <p class="lead rv">
+          Шесть лет в онлайне. Дважды платила за обучение нейросетям своими деньгами. И первой
+          скажу, где Клод не тянет: он умеет писать как искусственный интеллект, души там нет. Мозг
+          включаете вы.
         </p>
-        <p class="who__text">
-          Она не знает, что сказать. Знаешь ты. Она просто быстро печатает.
+        <p class="lead rv" style="margin-top:1rem">
+          Под каждую свою задачу у меня в Клоде собран отдельный агент. Такую же систему ставлю
+          клиенту. Часть работы делают агенты, поэтому это стоит меньше, чем команда из людей, и
+          продолжает работать после того, как я ухожу.
         </p>
       </div>
-
-      <div class="paper paper--tilt note">
-        <p class="eyebrow">промпт · черновик 4</p>
-        <p class="prompt">
-          <s>напиши пост про клиентов</s><br />
-          ты пишешь за меня. вот мой голос:<br />
-          — короткие фразы, самоирония<br />
-          — никаких «в современном мире»<br />
-          — в конце вопрос к читателю
-        </p>
+      <div class="who__side">
+        <div class="paper paper--tilt rv" style="background:#0b0b0c;color:#f4f4f2;border-color:#0b0b0c">
+          <p class="kicker" style="color:var(--acc)">промпт · черновик 4</p>
+          <p class="prompt" style="color:#f4f4f2">
+            <s>напиши пост про клиентов</s><br />
+            ты пишешь за меня. вот мой голос:<br />
+            — короткие фразы, самоирония<br />
+            — никаких «в современном мире»<br />
+            — в конце вопрос к читателю
+          </p>
+        </div>
+        <div class="short rv">
+          <img src="/img/liza-who.webp" alt="Лиза Ким" width="640" height="800" loading="lazy" />
+          <div>
+            <p class="kicker">коротко</p>
+            <p>Лиза Ким, маркетолог, Ростов. Работаю с теми, кто продаёт свои знания и услуги. Клод под маркетинг, чат GPT под остальные ниши.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Что можно взять сейчас -->
-  <section class="shell block">
-    <div class="block__head">
-      <h2 class="block__title block__title--sm">Тут лежит то, чем пользуюсь сама</h2>
-      <a class="link-more" href="/blog/">Все статьи</a>
-    </div>
-
-    {
-      articles.length > 0 && (
+  <!-- 5. Статьи -->
+  <section class="sec">
+    <div class="shell">
+      <div class="head-row rv">
+        <h2 class="h2 h2--sm">Тут лежит то, чем пользуюсь сама</h2>
+        <a class="more" href="/blog/">Все статьи →</a>
+      </div>
+      {articles.length > 0 && (
         <div class="feed">
           {articles.map((entry) => (
             <ArticleCard
@@ -200,436 +231,191 @@ const notFor = [
             />
           ))}
         </div>
-      )
-    }
-  </section>
-
-  <!-- 6. Что можно купить -->
-  <section class="shell block">
-    <div class="offer">
-      <p class="eyebrow">18 августа — 4 сентября</p>
-      <h2 class="offer__title">Интенсив по нейросетям</h2>
-      <p class="offer__lead">
-        Первый поток, поэтому расскажу честно, как он устроен.
-      </p>
-
-      <ul class="parts">
-        <li>
-          <b>Уроки в записи.</b> Доступ, оплата, установка, в том числе на Mac,
-          VPN и база работы с нейронкой. Смотришь в своём темпе, остаются у тебя.
-        </li>
-        <li>
-          <b>Личный разговор с каждой.</b> Я сажусь с тобой и разбираю, что у
-          тебя за задачи и что из них реально можно ускорить.
-        </li>
-        <li>
-          <b>Промпты под твои задачи.</b> Те, что нужны тебе, собранные после
-          разговора.
-        </li>
-        <li>
-          <b>Я в личке всё время интенсива.</b> Написала — я ответила.
-        </li>
-      </ul>
-
-      <div class="price">
-        <p class="price__main">4 900 ₽</p>
-        <p class="price__note">
-          Такая цена, потому что поток первый. Нас будет не больше десяти —
-          с каждой я говорю лично.
-        </p>
-      </div>
-
-      <p class="honest">
-        И сразу про то, о чём обычно молчат: сама нейросеть — отдельные деньги.
-        Клод — 2 000–3 000 ₽ в месяц, чат GPT — около 900 ₽, VPN — рублей 300.
-        Если ты не в маркетинге, тебе хватит варианта за 900. Разберём в первый
-        же день.
-      </p>
-
-      <a class="btn btn--solid" href={site.links.telegram}>Спросить про интенсив</a>
+      )}
     </div>
   </section>
 
-  <!-- 7. Вопросы и кому не надо -->
-  <section class="shell block">
-    <h2 class="block__title block__title--sm">Что спрашивают до оплаты</h2>
-
-    <div class="faq">
-      {
-        faq.map((item) => (
-          <details class="q">
+  <!-- 6. Вопросы -->
+  <section class="sec sec--deep">
+    <div class="shell">
+      <h2 class="h2 silver rv">Что спрашивают до того, как написать</h2>
+      <div class="faq">
+        {faq.map((item, i) => (
+          <details class="q rv" open={i === 0}>
             <summary>{item.q}</summary>
             <p>{item.a}</p>
           </details>
-        ))
-      }
-    </div>
-
-    <div class="notfor">
-      <p class="eyebrow">кому точно не надо</p>
-      <ul>
-        {notFor.map((item) => <li>{item}</li>)}
-      </ul>
+        ))}
+      </div>
     </div>
   </section>
 
-  <!-- 8. Действие -->
-  <section class="shell">
-    <aside class="final">
-      <h2 class="final__title">
-        Дальше всё <Marker>в Телеграме</Marker>
-      </h2>
-      <p class="final__lead">
-        Там разборы подробнее, промпты, которые можно скопировать одним тапом, и
-        мои цифры — включая недели, где ничего не выросло.
+  <!-- 7. Финал -->
+  <section class="final">
+    <div class="glow" style="left:50%;top:0;margin-left:-24rem;width:48rem;height:32rem"></div>
+    <div class="sphere sphere--v" style="width:11rem;height:11rem;right:8%;top:14%"></div>
+    <div class="shell" style="position:relative">
+      <h2 class="giant silver rv">Дальше<br />в Телеграме</h2>
+      <p class="lead rv">
+        Там разборы подробнее, промпты, которые можно скопировать одним тапом, и мои цифры,
+        включая недели, где ничего не выросло.
       </p>
-      <div class="final__actions">
-        <a class="btn btn--solid" href={site.links.telegram}>Подписаться на канал</a>
+      <div class="actions rv">
+        <a class="btn" href={site.links.telegram}>Подписаться на канал</a>
         <a class="btn btn--ghost" href="/blog/">Сначала почитать</a>
       </div>
-    </aside>
+    </div>
   </section>
 </Base>
 
 <style>
-  /* ——— 1. Узнавание ——— */
-  .hero {
-    display: grid;
-    gap: clamp(2rem, 5vw, 3.5rem);
-    padding-block: clamp(2.5rem, 7vw, 5rem) clamp(2rem, 5vw, 3rem);
-    align-items: center;
-  }
-
-  @media (min-width: 54rem) {
-    .hero { grid-template-columns: minmax(0, 1fr) 17rem; }
-  }
-
-  .hero__title {
-    margin-top: 1.1rem;
-    font-size: clamp(2.35rem, 1.3rem + 4.6vw, 4.4rem);
-    max-width: 15ch;
-  }
-
-  .hero__lead {
-    margin-top: 1.6rem;
-    max-width: var(--measure);
-    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.1875rem);
-    color: var(--ink-mute);
-  }
-
-  .hero__actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-  }
-
-  .hero__photo {
-    position: relative;
-    margin: 0;
-  }
-
-  .hero__photo img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    object-position: 50% 18%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 16px 32px -18px rgba(0, 0, 0, 0.5);
-  }
-
-  .hero__photo figcaption {
-    position: absolute;
-    right: -0.6rem;
-    bottom: -1.1rem;
-    max-width: 12rem;
-  }
-
-  /* ——— общие блоки ——— */
-  .block { margin-top: clamp(3.25rem, 8vw, 5.5rem); }
-
-  .block__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .block__title {
-    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.75rem);
-    max-width: 20ch;
-  }
-
-  .block__title--sm { font-size: clamp(1.4rem, 1.15rem + 1.1vw, 2rem); }
-
-  .block__lead {
-    margin-top: 1.2rem;
-    max-width: var(--measure);
-    color: var(--ink-mute);
-  }
-
-  .link-more {
-    font-size: 0.9375rem;
-    text-decoration: none;
-    border-bottom: 1px solid var(--rule-strong);
-    padding-bottom: 0.15em;
-    white-space: nowrap;
-  }
-
-  .link-more:hover { border-bottom-color: var(--ink); }
-
-  /* ——— 2. Сравнение ——— */
   .compare {
     display: grid;
-    gap: clamp(1.25rem, 3vw, 2rem);
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
     margin-top: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    align-items: start;
+    max-width: 56rem;
   }
 
   .compare .prompt { margin-top: 0.9rem; }
 
-  .compare__out {
-    margin-top: 1.1rem;
-    padding-top: 1.1rem;
-    border-top: 1px dashed var(--rule);
-    font-size: 0.9375rem;
-    line-height: 1.55;
-  }
-
-  .compare__out--dead { color: #a3a5a9; }
-
-  /* ——— 3. Задачи ——— */
-  .tasks {
-    display: grid;
-    gap: clamp(1rem, 2.5vw, 1.5rem);
-    margin-top: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  }
-
-  .task__name {
-    font-size: 1.125rem;
-    letter-spacing: -0.02em;
-  }
-
-  .task__row {
-    display: grid;
-    gap: 0.3rem;
+  .out {
     margin-top: 1rem;
-    font-size: 0.9375rem;
-    color: var(--ink-mute);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--card-mute);
   }
 
-  .task__lab {
-    font-family: var(--mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink);
-  }
+  .paper:not(.paper--light) .out { color: var(--text); }
+  .out--dead { color: #7c7e83; }
 
-  .task__lab--ai { color: #8a6f10; }
-
-  /* ——— 4. Кто говорит ——— */
-  .who {
-    display: grid;
-    gap: clamp(1.75rem, 4vw, 3rem);
-    align-items: start;
-  }
-
-  @media (min-width: 54rem) {
-    .who { grid-template-columns: minmax(0, 1fr) 18rem; }
-  }
-
-  .who__text {
-    margin-top: 1.3rem;
-    max-width: var(--measure);
-    color: var(--ink-mute);
-  }
-
-  .who .link-more { display: inline-block; margin-top: 1.5rem; }
-
-  .note { margin-top: 0.5rem; }
-
-  /* ——— 5. Лента ——— */
-  .feed {
-    margin-top: 1.25rem;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  /* ——— 6. Оффер ——— */
-  .offer {
-    background: var(--paper-raised);
-    padding: clamp(1.75rem, 5vw, 3.25rem);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 14px 30px -20px rgba(0, 0, 0, 0.35);
-  }
-
-  .offer__title {
-    margin-top: 0.7rem;
-    font-size: clamp(1.8rem, 1.3rem + 2.2vw, 2.75rem);
-  }
-
-  .offer__lead {
-    margin-top: 0.9rem;
-    color: var(--ink-mute);
-  }
-
-  .parts {
-    display: grid;
-    gap: 1.1rem;
-    margin-top: 2rem;
+  .thesis {
+    margin-top: 2.5rem;
     max-width: 44rem;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    line-height: 1.35;
+    color: var(--card-ink);
   }
 
-  .parts li {
-    padding-left: 1.1rem;
-    border-left: 2px solid var(--mark);
-    font-size: 0.9375rem;
-    color: var(--ink-mute);
-  }
-
-  .parts b { color: var(--ink); font-weight: 600; }
-
-  .price {
-    display: flex;
-    align-items: baseline;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-    margin-top: 2.25rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--rule);
-  }
-
-  .price__main {
+  .big {
+    margin-top: 2rem;
+    max-width: 30ch;
     font-family: var(--display);
     font-weight: 800;
-    font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
     letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.6rem);
+    color: var(--card-ink);
   }
 
-  .price__note {
-    font-size: 0.9375rem;
+  .paths {
+    display: grid;
+    gap: 2.5rem 3rem;
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 56rem) {
+    .paths { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .path__title {
+    font-size: 1.6rem;
+    letter-spacing: -0.03em;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .path__title span {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--ink-mute);
-    max-width: 34ch;
   }
 
-  .honest {
-    margin-top: 1.5rem;
-    margin-bottom: 2rem;
-    max-width: 46rem;
-    font-size: 0.9375rem;
-    color: var(--ink-mute);
-  }
-
-  /* ——— 7. Вопросы ——— */
-  .faq {
-    margin-top: 1.75rem;
-    border-top: 1px solid var(--rule);
-    max-width: 46rem;
-  }
-
-  .q {
+  .step {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0.6rem;
+    padding: 1.25rem 0;
     border-bottom: 1px solid var(--rule);
   }
 
-  .q summary {
-    padding-block: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    list-style: none;
+  .step .num { font-size: 0.75rem; color: var(--acc); padding-top: 0.35rem; }
+  .step h4 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--ink); }
+  .step p { margin-top: 0.4rem; font-size: 0.95rem; color: var(--text); }
+
+  .step--hot {
+    margin: 0.5rem -1rem;
+    padding: 1.25rem 1rem;
+    border-radius: 1rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--acc);
+    box-shadow: 0 0 60px -20px var(--acc-glow);
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--acc);
+    border-bottom: 1px solid transparent;
+  }
+
+  .more:hover { border-bottom-color: var(--acc); }
+
+  .note { max-width: 32ch; font-size: 0.9rem; color: var(--ink-mute); }
+
+  .who {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+    position: relative;
+  }
+
+  @media (min-width: 56rem) {
+    .who { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+  }
+
+  .who__side { display: grid; gap: 1.25rem; }
+
+  .short {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    align-items: center;
+    background: var(--card);
+    border-radius: 1.1rem;
+    padding: 1rem;
+    box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.5);
+  }
+
+  .short img { border-radius: 0.7rem; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
+  .short p:last-child { margin-top: 0.4rem; font-size: 0.95rem; color: var(--card-ink); }
+
+  .head-row {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
     align-items: baseline;
-  }
-
-  .q summary::-webkit-details-marker { display: none; }
-
-  .q summary::after {
-    content: '+';
-    font-family: var(--mono);
-    color: var(--ink-mute);
-    flex: none;
-  }
-
-  .q[open] summary::after { content: '–'; }
-
-  .q p {
-    padding-bottom: 1.2rem;
-    max-width: var(--measure);
-    font-size: 0.9375rem;
-    color: var(--ink-mute);
-  }
-
-  .notfor {
-    margin-top: 2.5rem;
-    padding: clamp(1.25rem, 3vw, 1.75rem);
-    background: var(--paper-raised);
-    max-width: 40rem;
-  }
-
-  .notfor ul {
-    display: grid;
-    gap: 0.55rem;
-    margin-top: 1rem;
-  }
-
-  .notfor li {
-    padding-left: 1.4rem;
-    position: relative;
-    font-size: 0.9375rem;
-    color: var(--ink-mute);
-  }
-
-  .notfor li::before {
-    content: '×';
-    position: absolute;
-    left: 0;
-    color: var(--pen);
-    font-weight: 600;
-  }
-
-  /* ——— 8. Финал ——— */
-  .final {
-    margin-top: clamp(3.5rem, 9vw, 6rem);
-    padding: clamp(2rem, 5vw, 3.5rem);
-    background: var(--ink);
-    color: var(--paper);
-  }
-
-  .final__title {
-    font-size: clamp(1.8rem, 1.3rem + 2.4vw, 3rem);
-    max-width: 16ch;
-  }
-
-  .final__lead {
-    margin-top: 1.2rem;
-    margin-bottom: 2rem;
-    max-width: var(--measure);
-    color: #b9bbc0;
-  }
-
-  .final__actions {
-    display: flex;
-    gap: 0.75rem;
+    gap: 1rem;
     flex-wrap: wrap;
   }
 
-  .final .btn--solid {
-    background: var(--paper);
-    color: var(--ink);
-    border-color: var(--paper);
+  .feed {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    margin-top: 2rem;
   }
 
-  .final .btn--solid:hover { background: #fff; color: #000; }
-
-  .final .btn--ghost {
-    color: var(--paper);
-    border-color: rgba(236, 234, 228, 0.45);
-  }
-
-  .final .btn--ghost:hover {
-    background: var(--paper);
-    color: var(--ink);
+  .final {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(4rem, 9vw, 7rem) 0 clamp(2rem, 4vw, 3rem);
   }
 </style>

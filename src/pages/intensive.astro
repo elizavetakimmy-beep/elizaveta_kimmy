@@ -1,0 +1,528 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import { ctaIntensive } from '../site';
+
+/* Тексты — «Личный блог/тексты_страница_интенсив_04.09.md», утверждены 4.09.
+   Продукт в записи: два тарифа, доступ два месяца, чат три недели с оплаты. */
+
+const known = [
+  'Один пост четыре часа, и то в семь заходов.',
+  'Пробовали нейронку, получилась ерунда. Решили, что писать как вы она не умеет.',
+  'Все вокруг что-то делают с нейронками, а вы до сих пор руками. Отстаёте или кажется?',
+  'Для клиентов успеваете. Для себя нет.',
+];
+
+const gains = [
+  'Клод стоит, оплачен из России и настроен под ваш проект. Пишет вашими словами, без «в современном мире».',
+  'Карусель за десять минут. У дизайнера такая стоит от 2 500 ₽.',
+  'Сценарий рилса из голосового, по скиллу, который знает ваш голос.',
+  'Монтаж рилса сами, по ТЗ. У монтажёра от 2 000 ₽ за штуку.',
+  'Разбор конкурентов и банк тем за вечер.',
+];
+
+const reviews = [
+  { src: '/otzyvy/anna-kos.webp', alt: 'Anna KOS: читаю отчёт Клода по нашим постам, какой он умный, такие тонкости подметил', w: 888, h: 242 },
+  { src: '/otzyvy/anastasiya.webp', alt: 'Анастасия, маркетолог: мой GPT оказался таким умным благодаря твоим урокам', w: 886, h: 248 },
+  { src: '/otzyvy/vika.webp', alt: 'Вика: ты очень понятно всё объясняешь в уроках, спасибо', w: 898, h: 198 },
+  { src: '/otzyvy/vozvrashchayus-v-video.webp', alt: 'Когда ничего не понимаю, возвращаюсь в видео и заново делаю, и всё ок', w: 874, h: 160 },
+];
+
+const tasks = [
+  ['Сценарии рилс', true], ['Карусели', true], ['Монтаж рилса', true], ['Разбор конкурентов', true], ['Банк тем', true], ['Настройка Клода под проект', true],
+  ['Посты', false], ['Сторис', false], ['ТЗ монтажёру', false], ['Расшифровка созвонов', false], ['Ответы в директ', false], ['Оффер и шапка', false], ['Лид-магниты', false], ['Контент-план', false],
+] as const;
+
+const program = [
+  ['Доступ и вход', 'Как установить и оплатить Клод, в том числе на Mac. Что такое токены и когда они тратятся. Какой тариф брать.'],
+  ['Интерфейс', 'Где что лежит, какие вкладки нужны, какие нет.'],
+  ['Ваш проект', 'Настраиваем Клод под вас: кто вы, что делаете, запреты на ИИ-фразы, чтобы он следовал вашим правилам.'],
+  ['Как работать', 'Скиллы, артефакты, как задавать вопросы, как править, как работать с промптами.'],
+  ['Анализ тем и конкурентов', 'Как разбирать конкурентов и собирать темы. Готовые промпты.'],
+  ['Сценарий рилса', 'Что править, что нет. Скиллы для сценариев.'],
+  ['Карусель', 'Как собирать и править карусели. Скилл для каруселей.'],
+  ['Монтаж', 'Как монтировать рилс в Клоде и как ставить ТЗ. Скилл для монтажа.'],
+];
+
+const inside = [
+  'Моя база промптов.',
+  'Готовые ТЗ и шаблоны сценариев.',
+  'Скиллы под каждый урок.',
+  'Файл настройки Клода под ваш проект. Заполняете один раз, дальше он пишет как вы.',
+];
+
+const insideChips = [
+  ['База промптов', true], ['Скилл сценариев', true], ['Скилл каруселей', true], ['Скилл монтажа', true], ['Готовые ТЗ и шаблоны', true], ['Файл настройки Клода', true],
+  ['Домашние задания с шагами', false], ['Доступ на два месяца', false], ['Чат три недели', false], ['Оплата из России', false], ['Установка на Mac', false], ['VPN', false],
+] as const;
+
+const forWhom = [
+  'Ведёте блог сами и пишете тексты руками',
+  'Пробовали нейронки урывками: начали и бросили',
+  'Клиенты съедают всё время, на своё не остаётся',
+  'Уже покупали подборку промптов, и она лежит',
+];
+
+const notFor = [
+  'Хотите, чтобы контент делался без вашего участия',
+  'Не готовы хотя бы двадцать минут в день тыкать самостоятельно',
+  'Нужны интеграции, боты и техническая настройка',
+  'Ждёте роста продаж к конкретной дате',
+];
+
+const faq = [
+  ['Сколько времени это займёт', 'Уроки до пятнадцати минут, смотреть можно с телефона. На задания уходит около получаса. Если только смотреть и ничего не делать, толку не будет.'],
+  ['Я пробую, а оно пишет фигню', 'Так и есть, если просить «напиши пост». Разница между таким запросом и «вот мои тексты, вот как я шучу, вот слова, которые я никогда не употребляю» — это разница между мусором и рабочим черновиком. Третий урок про это.'],
+  ['Я не технарь, я не разберусь', 'И не надо им становиться. Там нет ни одной инструкции про интеграции. Открыть, потыкать, посмотреть, что вышло. Я сама начинала с того, что выходило странно и мне не нравилось.'],
+  ['У меня своя специфика — психология, нутрициология, преподавание', 'И правильно, что там нельзя просто сгенерить. Общая база есть в уроках. Промпты под вашу специфику собираем в чате, это тариф за 4 900.'],
+  ['Если через нейронку, за что мне тогда платят клиенты', 'Нейросеть не знает, что сказать. Знаете вы. Кто не разбирается в теме, получит из неё мусор и не заметит. Вы получите рабочий материал, потому что вам есть чем его оценить.'],
+  ['А если я не дойду, как всегда', 'Доступ два месяца, уроки по пятнадцать минут. Этого хватает, даже если смотреть раз в неделю. Если нужно, чтобы кто-то напоминал, берите тариф с чатом.'],
+];
+---
+
+<Base
+  hero
+  title="Интенсив по нейросетям в записи"
+  description="Восемь уроков до пятнадцати минут: ставите Клод, настраиваете под себя и делаете карусели, сценарии и монтаж рилсов сами. 2 900 ₽, доступ на два месяца."
+>
+  <!-- 1. Первый экран -->
+  <Hero buttonLabel="Получить доступ" buttonHref={ctaIntensive} sub="интенсив в записи · 8 уроков · доступ на два месяца · 2 900 ₽">
+    <b>Хватит сохранять бесполезные промты.</b> Разберитесь в структуре нейронки один раз и настройте её под себя за 1 вечер.
+  </Hero>
+
+  <!-- 2. Знакомо? -->
+  <section class="sec">
+    <div class="shell">
+      <h2 class="h2 silver rv">Знакомо?</h2>
+      <div class="cards4">
+        {known.map((t, i) => (
+          <div class={`card rv${i === 2 ? ' card--light' : ''}`}>
+            <span class="mono num">{String(i + 1).padStart(2, '0')}</span>
+            <p>{t}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Как я на это смотрю -->
+  <section class="sec sec--light">
+    <div class="sphere" style="width:18rem;height:18rem;right:-4rem;top:2rem"></div>
+    <div class="sphere sphere--v" style="width:9rem;height:9rem;left:-3rem;bottom:3rem;animation-delay:-3s"></div>
+    <div class="shell stance">
+      <div class="rv">
+        <p class="kicker">как я на это смотрю</p>
+        <h2 class="stance__big"><span class="serif-i">Безликий</span><span>запрос</span></h2>
+        <p class="mono" style="margin-top:1.2rem;font-size:.8rem;color:var(--card-mute)">→ безликий текст</p>
+      </div>
+      <div>
+        <p class="stance__lead rv">
+          Безликий текст получается из безликого запроса. Нейросеть не знает, что сказать.
+          <span class="serif-i">Знаете вы.</span> Она быстро печатает.
+        </p>
+        <div class="pill pill--w rv"><span class="mono num">01</span><span>Она не заменит человека. Она сделает вашу работу проще, легче и интереснее.</span></div>
+        <div class="pill pill--d rv"><span class="mono num">02</span><span>Я не буду вас учить. Я покажу структуру, чтобы вы разобрались сами.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Результат + отзывы + плашки -->
+  <section class="sec">
+    <div class="glow" style="left:-10rem;bottom:-14rem;width:40rem;height:30rem"></div>
+    <div class="shell">
+      <h2 class="h2 rv">Что вы умеете <span class="violet">после восьмого урока</span></h2>
+      <div class="result">
+        <div>
+          <div class="rows">
+            {gains.map((t, i) => (
+              <div class="row rv"><span class="num">{String(i + 1).padStart(2, '0')}</span><span>{t}</span></div>
+            ))}
+          </div>
+          <p class="sum rv">Одна подписка на нейросеть вместо трёх подрядчиков.</p>
+        </div>
+        <div class="stack">
+          <div class="proof rv">
+            <img src="/otzyvy/karusel-10-minut.webp" alt="скриншот переписки из чата интенсива: карусель сделана за десять минут" width="664" height="180" />
+            <span class="kicker">из чата интенсива · карусель за 10 минут</span>
+          </div>
+          {reviews.map((r) => (
+            <div class="rev rv"><img src={r.src} alt={r.alt} width={r.w} height={r.h} /></div>
+          ))}
+        </div>
+      </div>
+      <p class="kicker rv" style="margin:3rem 0 1rem">что отдаёте Клоду · подсвечено то, что разбираем в уроках</p>
+      <div class="chips rv">
+        {tasks.map(([t, on]) => <span class={`chip${on ? ' chip--on' : ''}`}>{t}{on ? ' ✓' : ''}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Программа -->
+  <section class="sec sec--deep">
+    <div class="sphere" style="width:12rem;height:12rem;left:-5rem;bottom:4rem;opacity:.7"></div>
+    <div class="shell">
+      <p class="kicker rv" style="margin-bottom:1rem;color:var(--acc)">курс собран из реальной практики</p>
+      <h2 class="h2 silver rv">8 уроков в записи,<br />до 15 минут каждый</h2>
+      <div class="program">
+        {program.map(([t, d], i) => (
+          <div class={`lesson rv${i === 2 ? ' lesson--light' : ''}`}>
+            <span class="mono num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{t}</h3>
+            <p>{d}</p>
+          </div>
+        ))}
+      </div>
+      <p class="kicker rv" style="margin-top:1.5rem">к каждому уроку: шаги, готовые промпты, домашнее задание</p>
+    </div>
+  </section>
+
+  <!-- 6. Что внутри + кто ведёт -->
+  <section class="sec sec--light">
+    <div class="shell">
+      <div class="inside">
+        <div>
+          <h2 class="h2 rv">Что внутри, <span class="violet">кроме уроков</span></h2>
+          <div class="rows" style="margin-top:1.5rem">
+            {inside.map((t, i) => (
+              <div class="row rv"><span class="num">{String(i + 1).padStart(2, '0')}</span><span>{t}</span></div>
+            ))}
+          </div>
+        </div>
+        <div class="who rv">
+          <img class="who__ph" src="/img/liza-who.webp" alt="Елизавета Ким" width="640" height="800" loading="lazy" />
+          <div class="who__t">
+            <span class="kicker" style="color:var(--acc)">кто ведёт</span>
+            <p class="who__name">Елизавета Ким</p>
+            <ul class="who__list">
+              <li>6+ лет в маркетинге для бизнесов и экспертов</li>
+              <li>наставник курсов по продвижению</li>
+              <li>делегировала нейронке рутину и учу других делать так же</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="chips rv" style="margin-top:2.5rem">
+        {insideChips.map(([t, on]) => <span class={`chip${on ? ' chip--on' : ''}`}>{t}{on ? ' ✓' : ''}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Тарифы -->
+  <section class="sec" id="price">
+    <div class="glow" style="left:40%;top:-10rem;width:36rem;height:30rem"></div>
+    <div class="shell">
+      <h2 class="h2 silver rv">Тарифы</h2>
+      <div class="tariffs">
+        <div class="tariff rv">
+          <p class="price">2 900 ₽<small>тариф · базовый</small></p>
+          <ul>
+            <li>8 уроков в записи</li>
+            <li>промпты, скиллы и шаблоны</li>
+            <li>домашние задания с шагами</li>
+            <li>доступ на два месяца</li>
+          </ul>
+        </div>
+        <div class="tariff tariff--hot rv">
+          <p class="price">4 900 ₽<small>тариф · расширенный</small></p>
+          <p class="breakdown">из них 2 900 ₽ уроки в записи и 2 000 ₽ три недели сопровождения</p>
+          <ul>
+            <li>всё то же</li>
+            <li>три недели чата со мной с момента оплаты. Спрашиваете, я отвечаю, даже если вопрос не по программе</li>
+            <li>промпты под ваши задачи, если моих не хватило</li>
+          </ul>
+        </div>
+      </div>
+      <p class="rv" style="margin-top:1.5rem;max-width:44ch;color:var(--ink-mute)">Все уроки и ссылки в закрытом ТГ-канале, смотреть можно когда угодно.</p>
+      <div class="actions rv"><a class="btn" href={ctaIntensive}>Получить доступ</a></div>
+    </div>
+  </section>
+
+  <!-- 8. Кому -->
+  <section class="sec sec--tight">
+    <div class="shell split">
+      <div>
+        <h2 class="h2 h2--sm rv">Кому подойдёт</h2>
+        <ul class="list">
+          {forWhom.map((t, i) => <li class={`rv${i === 2 ? ' light' : ''}`}>{t}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="h2 h2--sm silver rv">Кому точно не надо</h2>
+        <ul class="list list--no">
+          {notFor.map((t) => <li class="rv">{t}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Вопросы -->
+  <section class="sec sec--deep">
+    <div class="shell">
+      <h2 class="h2 silver rv">Вопросы</h2>
+      <div class="faq">
+        {faq.map(([q, a], i) => (
+          <details class="q rv" open={i === 0}>
+            <summary>{q}</summary>
+            <p>{a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Финал -->
+  <section class="final">
+    <div class="glow" style="left:50%;top:0;margin-left:-24rem;width:48rem;height:32rem"></div>
+    <div class="sphere sphere--v" style="width:11rem;height:11rem;right:8%;top:14%"></div>
+    <div class="shell" style="position:relative">
+      <h2 class="giant silver rv" style="text-transform:none;font-size:clamp(2.4rem,1.4rem + 5.5vw,6.5rem)">Хочу делегировать<br />рутину нейронке</h2>
+      <div class="final__cta rv">
+        <a class="btn" href={ctaIntensive}>Получить доступ</a>
+        <p class="kicker">8 уроков · доступ два месяца · 2 900 ₽</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cards4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 1.1rem;
+    padding: 1.6rem 1.5rem;
+    min-height: 11rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card .num { color: var(--acc); font-size: 0.8rem; }
+  .card p { font-size: 1.02rem; color: var(--ink); }
+  .card--light { background: var(--card); border-color: var(--card); }
+  .card--light p { color: var(--card-ink); }
+
+  .stance {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+    position: relative;
+  }
+
+  @media (min-width: 52rem) {
+    .stance { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+  }
+
+  .stance__big {
+    margin-top: 1rem;
+    font-size: clamp(3rem, 2rem + 5vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+
+  .stance__big .serif-i { display: block; }
+  .stance__big span:last-child { display: block; font-size: 0.55em; }
+
+  .stance__lead {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    line-height: 1.35;
+    color: var(--card-ink);
+  }
+
+  .pill {
+    margin-top: 1rem;
+    padding: 1.2rem 1.4rem;
+    border-radius: 1rem;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.6rem;
+    font-size: 1rem;
+  }
+
+  .pill .num { color: var(--acc); font-size: 0.75rem; padding-top: 0.3rem; }
+  .pill--w { background: #fff; color: var(--card-ink); }
+  .pill--d { background: var(--card-ink); color: var(--ink); }
+
+  .result {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 56rem) {
+    .result { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+
+  .sum {
+    margin-top: 1.5rem;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  /* Стопка отзывов с наездом */
+  .stack { position: relative; display: grid; gap: 0; padding: 0 0.5rem 1rem; }
+  .stack > * + * { margin-top: -1.4rem; }
+
+  .proof,
+  .rev {
+    position: relative;
+    background: var(--card);
+    border-radius: 1rem;
+    padding: 0.7rem;
+    box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  }
+
+  .proof { z-index: 1; transform: rotate(-1.2deg); }
+  .proof img, .rev img { border-radius: 0.5rem; width: 100%; }
+  .proof .kicker { display: block; margin: 0.5rem 0.3rem 0; color: var(--card-mute); }
+
+  .rev:nth-child(2) { transform: rotate(-2.2deg) translateX(-1.5rem); z-index: 2; }
+  .rev:nth-child(3) { transform: rotate(1.8deg) translateX(2rem); z-index: 3; }
+  .rev:nth-child(4) { transform: rotate(-1.4deg) translateX(-0.5rem); width: 88%; z-index: 4; }
+  .rev:nth-child(5) { transform: rotate(2.4deg) translateX(2.5rem); width: 90%; z-index: 5; }
+  .rev:hover { z-index: 9; transform: rotate(0) translateX(0) scale(1.02); transition: transform 0.35s; }
+
+  .program {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .lesson {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 1.1rem;
+    padding: 1.5rem;
+    min-height: 12rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .lesson .num { color: var(--ink-mute); font-size: 0.8rem; margin-bottom: 0.6rem; }
+  .lesson h3 { font-size: 1.05rem; }
+  .lesson p { font-size: 0.92rem; color: var(--text); }
+  .lesson--light { background: var(--card); border-color: var(--card); }
+  .lesson--light h3 { color: var(--card-ink); }
+  .lesson--light p { color: var(--card-mute); }
+  .lesson--light .num { color: var(--acc); }
+
+  .inside {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  @media (min-width: 56rem) {
+    .inside { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+  }
+
+  .who {
+    background: var(--card-ink);
+    color: var(--ink);
+    border-radius: 1.1rem;
+    padding: 1.2rem;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .who__ph { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; border-radius: 0.8rem; aspect-ratio: 4 / 5; }
+  .who__t { display: flex; flex-direction: column; gap: 0.6rem; padding-right: 0.4rem; }
+  .who__name { font-family: var(--display); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.03em; line-height: 1.05; color: var(--ink); }
+  .who__list { display: grid; gap: 0.5rem; }
+  .who__list li { position: relative; padding-left: 1rem; font-size: 0.95rem; color: var(--text); }
+  .who__list li::before { content: '–'; position: absolute; left: 0; color: var(--acc); }
+
+  @media (max-width: 40rem) {
+    .who { grid-template-columns: 1fr; }
+  }
+
+  .tariffs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+    max-width: 56rem;
+  }
+
+  .tariff {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule-strong);
+    border-radius: 1.3rem;
+    padding: 1.8rem 1.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .tariff--hot { border-color: var(--acc); box-shadow: 0 0 60px -20px var(--acc-glow); }
+
+  .price {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.2rem, 1.6rem + 2vw, 3rem);
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: var(--ink);
+  }
+
+  .price small {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-left: 0.6rem;
+  }
+
+  .tariff--hot .price small { color: var(--acc); }
+
+  .breakdown {
+    margin-top: -0.4rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+  }
+
+  .tariff ul { display: grid; gap: 0.4rem; }
+  .tariff li { padding: 0.5rem 0 0.5rem 1.2rem; position: relative; font-size: 0.98rem; color: var(--ink); }
+  .tariff li::before { content: '–'; position: absolute; left: 0; color: var(--acc); }
+
+  .shell.split {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    align-items: start;
+  }
+
+  .final {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(4rem, 9vw, 7rem) 0 clamp(2rem, 4vw, 3rem);
+  }
+
+  .final__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-top: 2.5rem;
+  }
+</style>

@@ -9,16 +9,22 @@ interface Props {
   description?: string;
   /** Статьи получают более узкую колонку под чтение */
   variant?: 'default' | 'reading';
+  /** Страницы с первым экраном «НАПИШИ ПРОМТ» несут навигацию внутри него */
+  hero?: boolean;
+  image?: string;
 }
 
 const {
   title,
   description = site.description,
   variant = 'default',
+  hero = false,
+  image = '/portret-color.webp',
 } = Astro.props;
 
 const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const ogImage = new URL(image, Astro.site ?? site.url).href;
 ---
 
 <!doctype html>
@@ -26,6 +32,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0b0c" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -33,6 +40,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content={site.name} />
     <meta name="twitter:card" content="summary_large_image" />
@@ -40,14 +48,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
     <link rel="preload" as="style" href="/fonts/fonts.css" />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23eceae4'/><rect x='3' y='17' width='26' height='9' fill='%23e8c545'/><text x='16' y='23' font-family='Helvetica,Arial,sans-serif' font-weight='bold' font-size='19' fill='%2323252b' text-anchor='middle'>л</text></svg>"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230b0b0c'/><text x='16' y='23' font-family='Helvetica,Arial,sans-serif' font-weight='bold' font-size='19' fill='%23a06cff' text-anchor='middle'>л</text></svg>"
     />
     <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
     <slot name="head" />
   </head>
   <body>
     <a class="skip" href="#main">К содержимому</a>
-    <Header />
+    {!hero && <Header />}
     <main id="main" class={variant === 'reading' ? 'reading' : ''}>
       <slot />
     </main>
@@ -62,17 +70,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
     top: 0;
     z-index: 10;
     padding: 0.75em 1.2em;
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--acc);
+    color: var(--acc-ink);
     text-decoration: none;
     font-weight: 600;
   }
 
-  .skip:focus {
-    left: 0;
-  }
+  .skip:focus { left: 0; }
 
-  main {
-    display: block;
-  }
+  main { display: block; }
 </style>

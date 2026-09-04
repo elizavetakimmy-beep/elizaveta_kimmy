@@ -1,0 +1,202 @@
+---
+/* Первый экран «Монолит в цвете»: гигант «НАПИШИ ПРОМТ», портрет в цвете
+   заходит на буквы правым краем. Дизайн зафиксирован, меняется только текст. */
+import { site, nav } from '../site';
+
+interface Props {
+  buttonLabel: string;
+  buttonHref: string;
+  /** Строка под экраном моноширинным */
+  sub?: string;
+}
+
+const { buttonLabel, buttonHref, sub } = Astro.props;
+---
+
+<div class="shell hero-wrap">
+  <section class="hero" aria-label="Первый экран">
+    <div class="h-top">
+      <a class="h-logo" href="/">{site.name}</a>
+      <nav aria-label="Разделы сайта">
+        {nav.map((item, i) => (<><a href={item.href}>{item.label}</a>{i < nav.length - 1 && <span aria-hidden="true"> · </span>}</>))}
+      </nav>
+    </div>
+    <p class="h-quote">&gt; напиши промт<br />для моего блога</p>
+    <h1 class="h-word">НАПИШИ<br />ПРОМТ</h1>
+    <div class="h-ph" role="img" aria-label="Лиза Ким"></div>
+    <div class="h-foot">
+      <p class="h-lead"><slot /></p>
+      <a class="h-btn" href={buttonHref}>{buttonLabel}</a>
+    </div>
+  </section>
+  {sub && <p class="h-sub">{sub}</p>}
+</div>
+
+<style>
+  .hero-wrap { padding-top: 1rem; }
+
+  .hero {
+    container-type: inline-size;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: #0b0b0c;
+    color: #f4f4f2;
+    border-radius: 0.6rem;
+  }
+
+  .h-top {
+    position: absolute;
+    inset: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 3cqw 3.5cqw;
+    font-size: 1.25cqw;
+    color: #8e9095;
+    z-index: 4;
+  }
+
+  .h-top nav a:hover { color: #f4f4f2; }
+
+  .h-logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.6cqw;
+    color: #f4f4f2;
+  }
+
+  .h-quote {
+    position: absolute;
+    right: 3.5cqw;
+    top: 9cqw;
+    text-align: right;
+    z-index: 3;
+    font-family: var(--mono);
+    font-size: 1.2cqw;
+    color: #8e9095;
+    line-height: 1.6;
+    animation: up 1s 0.1s both;
+  }
+
+  .h-word {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 14cqw;
+    padding-left: 3.5cqw;
+    z-index: 1;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 14cqw;
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+    background: linear-gradient(100deg, #8a8a8c 0%, #fff 35%, #8a8a8c 55%, #3d3d40 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 7s ease-in-out infinite;
+  }
+
+  .h-ph {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3cqw;
+    height: 52cqw;
+    z-index: 2;
+    background-image: url('/portret-color.webp');
+    background-size: auto 100%;
+    background-position: 112% 100%;
+    background-repeat: no-repeat;
+    filter: drop-shadow(-2cqw 0 4cqw rgba(0, 0, 0, 0.92));
+    animation: slide 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+  }
+
+  .h-foot {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 4;
+    padding: 3.5cqw;
+    padding-right: 42cqw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 3cqw;
+  }
+
+  .h-lead {
+    font-size: 1.45cqw;
+    line-height: 1.55;
+    color: #c6c8cc;
+    max-width: 34ch;
+    animation: up 1s 0.5s both;
+  }
+
+  .h-lead :global(b) { color: #f4f4f2; font-weight: 600; }
+
+  .h-btn {
+    font-size: 1.3cqw;
+    font-weight: 600;
+    padding: 1.15em 2.2em;
+    background: var(--acc);
+    color: var(--acc-ink);
+    white-space: nowrap;
+    border-radius: 10cqw;
+    animation: up 1s 0.7s both;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+
+  .h-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px -8px var(--acc-glow), 0 0 0 6px var(--acc-tint);
+  }
+
+  .h-sub {
+    padding: 1.1rem 0 0;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink-mute);
+  }
+
+  /* На узком экране первый экран перестраивается в столбик: буквы сверху,
+     портрет под ними, текст и кнопка внизу без наезда на лицо */
+  @media (max-width: 46rem) {
+    .hero { aspect-ratio: auto; padding-bottom: 1rem; }
+    .h-top { position: static; padding: 1rem; font-size: 0.8rem; }
+    .h-logo { font-size: 1rem; }
+    .h-quote { position: static; text-align: left; padding: 0.5rem 1rem 0; font-size: 0.75rem; }
+    .h-word { position: static; padding: 0.75rem 1rem 0; font-size: 19vw; }
+    .h-ph {
+      position: static;
+      height: 70vw;
+      margin-top: -6vw;
+      background-position: 100% 100%;
+    }
+    .h-foot {
+      position: static;
+      padding: 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .h-lead { font-size: 1rem; }
+    .h-btn { font-size: 1rem; }
+  }
+
+  @keyframes shine {
+    0% { background-position: 120% 0; }
+    50% { background-position: -20% 0; }
+    100% { background-position: 120% 0; }
+  }
+
+  @keyframes slide {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>

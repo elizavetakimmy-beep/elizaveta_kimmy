@@ -26,60 +26,50 @@ const { href, title, lead, date, topic, minutes } = Astro.props;
   </h3>
 
   <p class="card__lead">{lead}</p>
+  <a class="card__more" href={href} aria-hidden="true" tabindex="-1">Читать →</a>
 </article>
 
 <style>
   .card {
-    padding-block: clamp(1.75rem, 4vw, 2.5rem);
-    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.5rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 1.1rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
+
+  .card:hover { border-color: var(--acc); transform: translateY(-2px); }
 
   .card__meta {
     display: flex;
     align-items: center;
     gap: 0.6rem;
     flex-wrap: wrap;
-    font-size: 0.8125rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
     color: var(--ink-mute);
-    margin-bottom: 0.9rem;
   }
 
-  .card__meta .sticker {
-    margin-right: 0.3rem;
-  }
-
-  .dot {
-    color: var(--rule-strong);
-  }
+  .dot { color: var(--rule-strong); }
 
   .card__title {
-    font-size: clamp(1.375rem, 1.1rem + 1.3vw, 2rem);
-    max-width: 24ch;
+    font-size: clamp(1.2rem, 1rem + 0.8vw, 1.5rem);
+    letter-spacing: -0.02em;
   }
 
-  .card__title a {
-    text-decoration: none;
-    background-image: linear-gradient(var(--mark), var(--mark));
-    background-size: 0% 1.5px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    transition: background-size 0.28s ease;
-  }
-
-  .card:hover .card__title a,
-  .card__title a:focus-visible {
-    background-size: 100% 1.5px;
-  }
+  .card__title a { color: var(--ink); }
 
   .card__lead {
-    margin-top: 0.75rem;
-    max-width: var(--measure);
-    color: var(--ink-mute);
+    font-size: 0.95rem;
+    color: var(--text);
+    flex: 1;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .card__title a {
-      transition: none;
-    }
+  .card__more {
+    font-size: 0.9rem;
+    color: var(--acc);
   }
 </style>

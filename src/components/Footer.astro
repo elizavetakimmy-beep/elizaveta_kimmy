@@ -1,25 +1,33 @@
 ---
-import { site } from '../site';
+import { site, nav, legalDocs } from '../site';
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="foot">
-  <div class="shell inner">
-    <div class="say">
-      <p class="line">
-        Пишу здесь то, что проверила на себе. С таймингом и с местами, где
-        переписываю руками.
-      </p>
-      <p class="meta">© {year} · {site.name}</p>
+  <div class="shell">
+    <div class="row row--top">
+      <a class="wordmark" href="/">{site.name}</a>
+      <nav aria-label="Разделы сайта">
+        <ul>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          <li><a href={site.links.instagram} rel="me noopener" target="_blank">Инстаграм</a></li>
+          <li><a href={site.links.telegram} rel="me noopener" target="_blank">Телеграм</a></li>
+        </ul>
+      </nav>
     </div>
 
-    <ul class="links">
-      <li><a href={site.links.instagram} rel="me noopener" target="_blank">Инстаграм</a></li>
-      <li><a href={site.links.telegram} rel="me noopener" target="_blank">Телеграм</a></li>
-      <li><a href={`mailto:${site.links.email}`}>Почта</a></li>
-      <li><a href="/rss.xml">RSS</a></li>
+    <ul class="docs">
+      {legalDocs.map((d) => <li><a href={d.href}>{d.label}</a></li>)}
     </ul>
+
+    <div class="row row--legal">
+      <p>
+        Самозанятая {site.legal.fio} · ИНН {site.legal.inn} · налог на профессиональный доход<br />
+        <a href={site.legal.phoneHref}>{site.legal.phone}</a> · <a href={`mailto:${site.links.email}`}>{site.links.email}</a>
+      </p>
+      <p>© {year} {site.name}</p>
+    </div>
   </div>
 </footer>
 
@@ -27,46 +35,66 @@ const year = new Date().getFullYear();
   .foot {
     margin-top: clamp(4rem, 10vw, 7rem);
     border-top: 1px solid var(--rule);
-    padding-block: clamp(2rem, 5vw, 3rem);
-  }
-
-  .inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .line {
-    font-size: 1.125rem;
-    max-width: 22ch;
-  }
-
-  .meta {
-    margin-top: 0.6rem;
-    font-size: 0.8125rem;
+    padding-block: 1.75rem 2.5rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
     color: var(--ink-mute);
   }
 
-  .links {
+  .row {
     display: flex;
-    gap: 1.25rem;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem 2rem;
     flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 0.9375rem;
   }
 
-  .links a {
-    text-decoration: none;
+  .row--top {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .row--top a { color: var(--text); }
+  .row--top a:hover { color: var(--ink); }
+
+  .wordmark {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    color: var(--ink) !important;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .docs {
+    display: flex;
+    gap: 0.75rem 1.75rem;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .docs a {
+    color: var(--text);
     border-bottom: 1px solid var(--rule-strong);
-    padding-bottom: 0.15em;
+    padding-bottom: 0.1em;
   }
 
-  .links a:hover {
-    border-bottom-color: var(--mark);
-    border-bottom-width: 3px;
+  .docs a:hover { color: var(--ink); border-color: var(--acc); }
+
+  .row--legal {
+    align-items: flex-start;
+    padding-top: 1rem;
+    line-height: 1.7;
   }
+
+  .row--legal a { color: inherit; }
+  .row--legal a:hover { color: var(--ink); }
 </style>
