@@ -34,7 +34,7 @@ E-mail для обращений по персональным данным: eli
 
 (далее — «Оператор»)
 
-Сайт Оператора: https://elizaveta-kimmy.pages.dev
+Сайт Оператора: https://elizavetakimmy.ru
 
 Аккаунты Оператора в социальных сетях и мессенджерах, к которым применяется Политика: Instagram @elizaveta_kimmy, Telegram @elizaveta_kimmy, Telegram-канал t.me/kimmy_marketing
 
@@ -413,7 +413,7 @@ E-mail для обращений по персональным данным: eli
 | Телефон | +7 919 882-51-00 |
 | E-mail для запросов по персональным данным | elizaveta.kimmy@ya.ru |
 | Ответственный за организацию обработки данных | Ким Елизавета Викторовна |
-| Сайт | https://elizaveta-kimmy.pages.dev |
+| Сайт | https://elizavetakimmy.ru |
 
 ## 21. Заключительные положения
 

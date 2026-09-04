@@ -281,5 +281,5 @@ updated: 2026-09-04
 | Адрес для корреспонденции | По электронной почте elizaveta.kimmy@ya.ru |
 | Телефон | +7 919 882-51-00 |
 | E-mail для претензий и заявлений о возврате | elizaveta.kimmy@ya.ru |
-| Сайт | https://elizaveta-kimmy.pages.dev |
+| Сайт | https://elizavetakimmy.ru |
 | Дата редакции Оферты | 4 сентября 2026 г. |

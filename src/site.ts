@@ -10,7 +10,7 @@ export const site = {
   // Показывается в поиске и при отправке ссылки в мессенджер
   description:
     'Лиза Ким, маркетолог. Показываю, как перевела работу на нейронки — в клиентских проектах и в своём блоге. Интенсив по Клоду в записи, промпты, разборы.',
-  url: 'https://elizaveta-kimmy.pages.dev',
+  url: 'https://elizavetakimmy.ru',
   links: {
     instagram: 'https://instagram.com/elizaveta_kimmy',
     // Канал: промпты, разборы, цифры
